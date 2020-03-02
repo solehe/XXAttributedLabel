@@ -4,6 +4,7 @@
 
 
 注：
+
 1、由于是基于M80AttributedLabel进行的扩展，因此除新增了选择功能外，其他属性使用请参照：
       M80AttributedLabel  -->  https://github.com/xiangwangfeng/M80AttributedLabel
     
@@ -12,3 +13,5 @@
 3、如果有问题需要探讨，可发送邮件至 soleworld@163.com
 
 4、代码虽不完善，但您可以随意更改使用，也希望您能帮助更多的人  ^_^
+
+5、支持pod方式导入 ～> pod 'XXAttributedLabel' 

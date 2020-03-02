@@ -14,6 +14,7 @@ FOUNDATION_EXPORT double XXAttributedLabelVersionNumber;
 //! Project version string for XXAttributedLabel.
 FOUNDATION_EXPORT const unsigned char XXAttributedLabelVersionString[];
 
-// In this header, you should import all the public headers of your framework using statements like #import <XXAttributedLabel/PublicHeader.h>
+// In this header, you should import all the public headers of your framework using statements like
+#import <XXAttributedLabel/XXAttributedLabel.h>
 
 
