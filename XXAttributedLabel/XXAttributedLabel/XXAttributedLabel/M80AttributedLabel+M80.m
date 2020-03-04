@@ -18,7 +18,7 @@
     {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
-        Method m80Method1 = class_getInstanceMethod(self.class, @selector(resetTextFrame:));
+        Method m80Method1 = class_getInstanceMethod(self.class, @selector(resetTextFrame));
         Method m80Method2 = class_getInstanceMethod(self.class, @selector(prepareTextFrame:rect:));
 #pragma clang diagnostic pop
         Method xxMethod1 = class_getInstanceMethod(self.class, @selector(xx_resetTextFrame));

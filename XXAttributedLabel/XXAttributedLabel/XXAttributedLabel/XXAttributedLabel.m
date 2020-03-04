@@ -8,13 +8,13 @@
 
 #import <objc/runtime.h>
 #import "XXAttributedLabel.h"
-#import "XXAttributedLabelSelectView.h"
+#import "XXAttributedLabelDrawView.h"
 #import "M80AttributedLabelURL.h"
 
 @interface XXAttributedLabel ()
 
 // 选择视图
-@property (nonatomic, strong) XXAttributedLabelSelectView *selectView;
+@property (nonatomic, strong) XXAttributedLabelDrawView *drawView;
 
 // 触摸定时器，用于判断长按和点击
 @property (nonatomic, strong) NSTimer *touchTimer;
@@ -22,21 +22,22 @@
 // 是否是长按链接
 @property (nonatomic, assign) BOOL isLongPressedLink;
 
+
 @end
 
 
 @implementation XXAttributedLabel
 
-- (XXAttributedLabelSelectView *)selectView
+- (XXAttributedLabelDrawView *)drawView
 {
-    if (!_selectView)
+    if (!_drawView)
     {
-        _selectView = [[XXAttributedLabelSelectView alloc] initWithFrame:self.bounds];
-        [_selectView setBackgroundColor:[UIColor clearColor]];
-        [_selectView setClipsToBounds:NO];
-        [_selectView setLabel:self];
+        _drawView = [[XXAttributedLabelDrawView alloc] initWithFrame:self.bounds];
+        [_drawView setBackgroundColor:[UIColor clearColor]];
+        [_drawView setClipsToBounds:NO];
+        [_drawView setLabel:self];
     }
-    return _selectView;
+    return _drawView;
 }
 
 - (UIColor *)selectedBackgroundColor
@@ -57,13 +58,20 @@
     return _selectedAnchorColor;
 }
 
+- (void)setBounds:(CGRect)bounds
+{
+    [super setBounds:bounds];
+    
+    [self.drawView setBounds:self.bounds];
+}
+
 - (NSString *)selectedText
 {
-    NSRange range = self.selectView.selecedRange;
+    NSRange range = self.drawView.selecedRange;
     NSUInteger len = range.location + range.length;
     if (len <= self.attributedText.string.length)
     {
-        return [self.attributedText.string substringWithRange:self.selectView.selecedRange];
+        return [self.attributedText.string substringWithRange:self.drawView.selecedRange];
     }
     return nil;
 }
@@ -73,13 +81,53 @@
     return MAX(_activeDuration, 0.5f);
 }
 
+- (void)setSelecting:(BOOL)selecting
+{
+    if (_selecting != selecting && _enableSelected)
+    {
+        _selecting = selecting;
+        [self.drawView setSelecting:selecting];
+        
+        if (self.selectingListenBlock)
+        {
+            self.selectingListenBlock(selecting);
+        }
+    }
+}
+
+- (void)setIsDisplayingMagnify:(BOOL)isDisplayingMagnify
+{
+    if (_isDisplayingMagnify != isDisplayingMagnify)
+    {
+        _isDisplayingMagnify = isDisplayingMagnify;
+        
+        if (self.magnifyDisplayBlock)
+        {
+            self.magnifyDisplayBlock(isDisplayingMagnify);
+        }
+    }
+}
+
+
+#pragma mark -  绘制
+
+- (void)drawRect:(CGRect)rect
+{
+    if (self.drawView.selecting)
+    {
+        [self setValue:nil forKeyPath:@"touchedLink"];
+    }
+    
+    [super drawRect:rect];
+}
+
 #pragma mark - 点击事件相应
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [super touchesBegan:touches withEvent:event];
     
     // 是否在选中状态
-    if (self.enableSelected && (!self.selectView.selecting || !self.longPressedLinkBlock))
+    if (self.enableSelected && (!self.drawView.selecting || !self.longPressedLinkBlock))
     {
      
         //计时器，手指点中0.5秒后启动选中效果
@@ -92,7 +140,7 @@
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    if (!self.isLongPressedLink && !self.selectView.selecting)
+    if (!self.isLongPressedLink && !self.drawView.selecting)
     {
         [super touchesMoved:touches withEvent:event];
     }
@@ -100,17 +148,12 @@
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    if (!self.isLongPressedLink && !self.selectView.selecting)
-    {
-        [super touchesCancelled:touches withEvent:event];
-    }
-    
-    [self deallocTouches];
+    [self touchesEnded:touches withEvent:event];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    if (!self.isLongPressedLink && !self.selectView.selecting)
+    if (!self.isLongPressedLink && !self.drawView.selecting)
     {
         [super touchesEnded:touches withEvent:event];
     }
@@ -120,9 +163,9 @@
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
 {
-    if (self.selectView.selecting)
+    if (self.drawView.selecting)
     {
-        return self.selectView;
+        return self.drawView;
     }
     else if (CGRectContainsPoint(self.bounds, point))
     {
@@ -138,7 +181,7 @@
 - (void)longPressed
 {
     M80AttributedLabelURL *link = [self valueForKeyPath:@"touchedLink"];
-    if (link)
+    if (link && !NSEqualRanges(link.range, NSMakeRange(0, self.text.length)))
     {
         [self setIsLongPressedLink:YES];
         
@@ -150,7 +193,8 @@
     }
     else
     {
-        [self.selectView setSelecting:YES];
+        [self.drawView setSelecting:YES];
+        [self setNeedsDisplay];
     }
 }
 

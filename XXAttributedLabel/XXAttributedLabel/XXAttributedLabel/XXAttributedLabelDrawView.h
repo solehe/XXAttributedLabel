@@ -1,5 +1,5 @@
 //
-//  XXAttributedLabelSelectView.h
+//  XXAttributedLabelDrawView.h
 //  XXAttributedLabel
 //
 //  Created by solehe on 2020/2/29.
@@ -13,7 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface XXAttributedLabelSelectView : UIView
+@interface XXAttributedLabelDrawView : UIView
 
 // 所在的label
 @property (nonatomic, weak) XXAttributedLabel *label;
@@ -21,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL selecting;
 // 选中范围
 @property (nonatomic, assign, readonly) NSRange selecedRange;
+// 放大镜展示监听
+@property (nonatomic, copy) void(^DisplayMagnifyViewBlock)(BOOL display);
 
 @end
 

@@ -7,30 +7,34 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		52485091240FA0A800078A66 /* XXAttributedLabelTouchView.h in Headers */ = {isa = PBXBuildFile; fileRef = 52485085240FA0A800078A66 /* XXAttributedLabelTouchView.h */; };
+		52485092240FA0A800078A66 /* XXAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 52485086240FA0A800078A66 /* XXAttributedLabel.m */; };
+		52485094240FA0A800078A66 /* XXAttributedLabelMagnifyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 52485088240FA0A800078A66 /* XXAttributedLabelMagnifyView.m */; };
+		52485095240FA0A800078A66 /* XXAttributedLabelDrawView.h in Headers */ = {isa = PBXBuildFile; fileRef = 52485089240FA0A800078A66 /* XXAttributedLabelDrawView.h */; };
+		52485096240FA0A800078A66 /* M80AttributedLabel+M80.h in Headers */ = {isa = PBXBuildFile; fileRef = 5248508A240FA0A800078A66 /* M80AttributedLabel+M80.h */; };
+		52485097240FA0A800078A66 /* XXAttributedLabelTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5248508B240FA0A800078A66 /* XXAttributedLabelTouchView.m */; };
+		52485098240FA0A800078A66 /* XXAttributedLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5248508C240FA0A800078A66 /* XXAttributedLabel.h */; };
+		52485099240FA0A800078A66 /* XXAttributedLabelMagnifyView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5248508D240FA0A800078A66 /* XXAttributedLabelMagnifyView.h */; };
+		5248509B240FA0A800078A66 /* M80AttributedLabel+M80.m in Sources */ = {isa = PBXBuildFile; fileRef = 5248508F240FA0A800078A66 /* M80AttributedLabel+M80.m */; };
+		5248509C240FA0A800078A66 /* XXAttributedLabelDrawView.m in Sources */ = {isa = PBXBuildFile; fileRef = 52485090240FA0A800078A66 /* XXAttributedLabelDrawView.m */; };
 		85033A09240D61EC0029A56B /* XXAttributedLabel-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = 85033A07240D61EC0029A56B /* XXAttributedLabel-Header.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		85033A33240DC3840029A56B /* XXAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 85033A2B240DC3840029A56B /* XXAttributedLabel.m */; };
-		85033A34240DC3840029A56B /* XXAttributedLabelSelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 85033A2C240DC3840029A56B /* XXAttributedLabelSelectView.m */; };
-		85033A35240DC3840029A56B /* XXAttributedLabelMagnifyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 85033A2D240DC3840029A56B /* XXAttributedLabelMagnifyView.m */; };
-		85033A36240DC3840029A56B /* M80AttributedLabel+M80.h in Headers */ = {isa = PBXBuildFile; fileRef = 85033A2E240DC3840029A56B /* M80AttributedLabel+M80.h */; };
-		85033A37240DC3840029A56B /* XXAttributedLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = 85033A2F240DC3840029A56B /* XXAttributedLabel.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		85033A38240DC3840029A56B /* XXAttributedLabelMagnifyView.h in Headers */ = {isa = PBXBuildFile; fileRef = 85033A30240DC3840029A56B /* XXAttributedLabelMagnifyView.h */; };
-		85033A39240DC3840029A56B /* XXAttributedLabelSelectView.h in Headers */ = {isa = PBXBuildFile; fileRef = 85033A31240DC3840029A56B /* XXAttributedLabelSelectView.h */; };
-		85033A3A240DC3840029A56B /* M80AttributedLabel+M80.m in Sources */ = {isa = PBXBuildFile; fileRef = 85033A32240DC3840029A56B /* M80AttributedLabel+M80.m */; };
 		8FD0723CC9E19DB932CDDDFA /* Pods_XXAttributedLabel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4A3DB2BFEE5474D1F6853DE /* Pods_XXAttributedLabel.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		52485085240FA0A800078A66 /* XXAttributedLabelTouchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXAttributedLabelTouchView.h; sourceTree = "<group>"; };
+		52485086240FA0A800078A66 /* XXAttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXAttributedLabel.m; sourceTree = "<group>"; };
+		52485088240FA0A800078A66 /* XXAttributedLabelMagnifyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXAttributedLabelMagnifyView.m; sourceTree = "<group>"; };
+		52485089240FA0A800078A66 /* XXAttributedLabelDrawView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXAttributedLabelDrawView.h; sourceTree = "<group>"; };
+		5248508A240FA0A800078A66 /* M80AttributedLabel+M80.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "M80AttributedLabel+M80.h"; sourceTree = "<group>"; };
+		5248508B240FA0A800078A66 /* XXAttributedLabelTouchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXAttributedLabelTouchView.m; sourceTree = "<group>"; };
+		5248508C240FA0A800078A66 /* XXAttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXAttributedLabel.h; sourceTree = "<group>"; };
+		5248508D240FA0A800078A66 /* XXAttributedLabelMagnifyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXAttributedLabelMagnifyView.h; sourceTree = "<group>"; };
+		5248508F240FA0A800078A66 /* M80AttributedLabel+M80.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "M80AttributedLabel+M80.m"; sourceTree = "<group>"; };
+		52485090240FA0A800078A66 /* XXAttributedLabelDrawView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXAttributedLabelDrawView.m; sourceTree = "<group>"; };
 		85033A04240D61EC0029A56B /* XXAttributedLabel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = XXAttributedLabel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		85033A07240D61EC0029A56B /* XXAttributedLabel-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XXAttributedLabel-Header.h"; sourceTree = "<group>"; };
 		85033A08240D61EC0029A56B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		85033A2B240DC3840029A56B /* XXAttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXAttributedLabel.m; sourceTree = "<group>"; };
-		85033A2C240DC3840029A56B /* XXAttributedLabelSelectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXAttributedLabelSelectView.m; sourceTree = "<group>"; };
-		85033A2D240DC3840029A56B /* XXAttributedLabelMagnifyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXAttributedLabelMagnifyView.m; sourceTree = "<group>"; };
-		85033A2E240DC3840029A56B /* M80AttributedLabel+M80.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "M80AttributedLabel+M80.h"; sourceTree = "<group>"; };
-		85033A2F240DC3840029A56B /* XXAttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXAttributedLabel.h; sourceTree = "<group>"; };
-		85033A30240DC3840029A56B /* XXAttributedLabelMagnifyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXAttributedLabelMagnifyView.h; sourceTree = "<group>"; };
-		85033A31240DC3840029A56B /* XXAttributedLabelSelectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXAttributedLabelSelectView.h; sourceTree = "<group>"; };
-		85033A32240DC3840029A56B /* M80AttributedLabel+M80.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "M80AttributedLabel+M80.m"; sourceTree = "<group>"; };
 		918774B769638EB090BB01A4 /* Pods-XXAttributedLabel.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XXAttributedLabel.release.xcconfig"; path = "Target Support Files/Pods-XXAttributedLabel/Pods-XXAttributedLabel.release.xcconfig"; sourceTree = "<group>"; };
 		98A64ED289F50DE7EC2C3113 /* Pods-XXAttributedLabel.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XXAttributedLabel.debug.xcconfig"; path = "Target Support Files/Pods-XXAttributedLabel/Pods-XXAttributedLabel.debug.xcconfig"; sourceTree = "<group>"; };
 		F4A3DB2BFEE5474D1F6853DE /* Pods_XXAttributedLabel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XXAttributedLabel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -48,6 +52,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		52485084240FA0A800078A66 /* XXAttributedLabel */ = {
+			isa = PBXGroup;
+			children = (
+				5248508A240FA0A800078A66 /* M80AttributedLabel+M80.h */,
+				5248508F240FA0A800078A66 /* M80AttributedLabel+M80.m */,
+				5248508C240FA0A800078A66 /* XXAttributedLabel.h */,
+				52485086240FA0A800078A66 /* XXAttributedLabel.m */,
+				5248508D240FA0A800078A66 /* XXAttributedLabelMagnifyView.h */,
+				52485088240FA0A800078A66 /* XXAttributedLabelMagnifyView.m */,
+				52485089240FA0A800078A66 /* XXAttributedLabelDrawView.h */,
+				52485090240FA0A800078A66 /* XXAttributedLabelDrawView.m */,
+				52485085240FA0A800078A66 /* XXAttributedLabelTouchView.h */,
+				5248508B240FA0A800078A66 /* XXAttributedLabelTouchView.m */,
+			);
+			path = XXAttributedLabel;
+			sourceTree = "<group>";
+		};
 		770FA08F1625A7AEE2A34567 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -77,24 +98,9 @@
 		85033A06240D61EC0029A56B /* XXAttributedLabel */ = {
 			isa = PBXGroup;
 			children = (
-				85033A2A240DC3840029A56B /* XXAttributedLabel */,
+				52485084240FA0A800078A66 /* XXAttributedLabel */,
 				85033A07240D61EC0029A56B /* XXAttributedLabel-Header.h */,
 				85033A08240D61EC0029A56B /* Info.plist */,
-			);
-			path = XXAttributedLabel;
-			sourceTree = "<group>";
-		};
-		85033A2A240DC3840029A56B /* XXAttributedLabel */ = {
-			isa = PBXGroup;
-			children = (
-				85033A2E240DC3840029A56B /* M80AttributedLabel+M80.h */,
-				85033A32240DC3840029A56B /* M80AttributedLabel+M80.m */,
-				85033A2F240DC3840029A56B /* XXAttributedLabel.h */,
-				85033A2B240DC3840029A56B /* XXAttributedLabel.m */,
-				85033A30240DC3840029A56B /* XXAttributedLabelMagnifyView.h */,
-				85033A2D240DC3840029A56B /* XXAttributedLabelMagnifyView.m */,
-				85033A31240DC3840029A56B /* XXAttributedLabelSelectView.h */,
-				85033A2C240DC3840029A56B /* XXAttributedLabelSelectView.m */,
 			);
 			path = XXAttributedLabel;
 			sourceTree = "<group>";
@@ -115,11 +121,12 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				85033A39240DC3840029A56B /* XXAttributedLabelSelectView.h in Headers */,
-				85033A37240DC3840029A56B /* XXAttributedLabel.h in Headers */,
+				52485091240FA0A800078A66 /* XXAttributedLabelTouchView.h in Headers */,
+				52485095240FA0A800078A66 /* XXAttributedLabelDrawView.h in Headers */,
 				85033A09240D61EC0029A56B /* XXAttributedLabel-Header.h in Headers */,
-				85033A38240DC3840029A56B /* XXAttributedLabelMagnifyView.h in Headers */,
-				85033A36240DC3840029A56B /* M80AttributedLabel+M80.h in Headers */,
+				52485098240FA0A800078A66 /* XXAttributedLabel.h in Headers */,
+				52485099240FA0A800078A66 /* XXAttributedLabelMagnifyView.h in Headers */,
+				52485096240FA0A800078A66 /* M80AttributedLabel+M80.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -217,10 +224,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				85033A3A240DC3840029A56B /* M80AttributedLabel+M80.m in Sources */,
-				85033A33240DC3840029A56B /* XXAttributedLabel.m in Sources */,
-				85033A34240DC3840029A56B /* XXAttributedLabelSelectView.m in Sources */,
-				85033A35240DC3840029A56B /* XXAttributedLabelMagnifyView.m in Sources */,
+				52485092240FA0A800078A66 /* XXAttributedLabel.m in Sources */,
+				5248509C240FA0A800078A66 /* XXAttributedLabelDrawView.m in Sources */,
+				52485097240FA0A800078A66 /* XXAttributedLabelTouchView.m in Sources */,
+				5248509B240FA0A800078A66 /* M80AttributedLabel+M80.m in Sources */,
+				52485094240FA0A800078A66 /* XXAttributedLabelMagnifyView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

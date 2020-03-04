@@ -94,6 +94,7 @@
     // 放大层
     self.magnifyLayer = [[XXAttributedLabelMagnifyLayer alloc] init];
     [self.magnifyLayer setFrame:CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame)-10)];
+    [self.magnifyLayer setBackgroundColor:[UIColor whiteColor].CGColor];
     [self.magnifyLayer setContentsScale:[UIScreen mainScreen].scale];
     [self.magnifyLayer setBorderColor:[UIColor lightGrayColor].CGColor];
     [self.magnifyLayer setBorderWidth:0.5f];

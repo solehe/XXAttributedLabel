@@ -1,5 +1,5 @@
 //
-//  XXAttributedLabelSelectView.m
+//  XXAttributedLabelDrawView.m
 //  XXAttributedLabel
 //
 //  Created by solehe on 2020/2/29.
@@ -10,7 +10,8 @@
 
 #import "M80AttributedLabel+M80.h"
 #import "XXAttributedLabelMagnifyView.h"
-#import "XXAttributedLabelSelectView.h"
+#import "XXAttributedLabelTouchView.h"
+#import "XXAttributedLabelDrawView.h"
 #import "XXAttributedLabel.h"
 
 // 拖拽位置枚举
@@ -21,7 +22,10 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
 };
 
 
-@interface XXAttributedLabelSelectView ()
+@interface XXAttributedLabelDrawView ()
+<
+    XXAttributedLabelTouchViewDelegate
+>
 
 // 开始绘制行
 @property (nonatomic, assign) CFIndex startAtLine;
@@ -35,38 +39,55 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
 // 选中区域扩展
 @property (nonatomic, assign) UIEdgeInsets edgeInsets;
 
-// 喵点开始位置
+// 锚点开始位置
 @property (nonatomic, assign) CGRect startAnchorRect;
-// 喵点结束位置
+// 锚点结束位置
 @property (nonatomic, assign) CGRect endAnchorRect;
 
 // 拖拽位置
 @property (nonatomic, assign) XXDragLocation dragLocation;
+
+// 触摸视图
+@property (nonatomic, strong) XXAttributedLabelTouchView *touchView;
 
 // 放大镜视图
 @property (nonatomic, strong) XXAttributedLabelMagnifyView *magnifyView;
 
 @end
 
-@implementation XXAttributedLabelSelectView
+@implementation XXAttributedLabelDrawView
 
 #pragma mark - 初始化
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
     // 扩大选中范围
-    CGFloat x = frame.origin.x - self.edgeInsets.left;
-    CGFloat y = frame.origin.y - self.edgeInsets.top;
-    CGFloat width = frame.size.width + self.edgeInsets.left + self.edgeInsets.right;
-    CGFloat height = frame.size.height + self.edgeInsets.top + self.edgeInsets.bottom;
-    
-    frame = CGRectMake(x , y, width, height);
+    frame = [self increaseFrame:frame];
     
     if (self = [super initWithFrame:frame])
     {
         
     }
     return self;
+}
+
+- (void)setBounds:(CGRect)bounds
+{
+    // 扩大选中范围
+    CGRect frame = [self increaseFrame:bounds];;
+    // 重置自身大小
+    [self setFrame:frame];
+}
+
+- (XXAttributedLabelTouchView *)touchView
+{
+    if (!_touchView)
+    {
+        _touchView = [[XXAttributedLabelTouchView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        [_touchView setBackgroundColor:[UIColor clearColor]];
+        [_touchView setDelegate:self];
+    }
+    return _touchView;
 }
 
 - (XXAttributedLabelMagnifyView *)magnifyView
@@ -126,6 +147,8 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
     
     if (_selecting != selecting) {
         
+        _selecting = selecting;
+        
         if (selecting)
         {
             [self show];
@@ -134,8 +157,6 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
         {
             [self hidden];
         }
-        
-        _selecting = selecting;
     }
 }
 
@@ -237,65 +258,47 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
 }
 
 #pragma mark - 点击事件相应
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+
+- (void)touchView:(XXAttributedLabelTouchView *)touchView begain:(CGPoint)point
 {
-    
     // 是否在选中状态
     if (self.selecting)
     {
-        UITouch *touch = [touches anyObject];
-        CGPoint point = [touch locationInView:self];
+        CGPoint drawPoint = [touchView convertPoint:point toView:self];
         
-        if ([self isContainsPoint:point])
+        if ([self isContainsPoint:drawPoint])
         {
-            [self begainTouchPoint:point];
+            [self begainTouchPoint:drawPoint];
         }
         else
         {
             [self setSelecting:NO];
         }
     }
-    else
-    {
-        [super touchesBegan:touches withEvent:event];
-    }
 }
 
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+- (void)touchView:(XXAttributedLabelTouchView *)touchView moved:(CGPoint)point
 {
     // 是否在选中状态
     if (self.selecting && self.dragLocation != XXDragLocationNone)
     {
-        UITouch *touch = [touches anyObject];
-        CGPoint point = [touch locationInView:self];
-        
-        [self moveTouchPoint:point];
-    }
-    else {
-        [super touchesMoved:touches withEvent:event];
+        CGPoint drawPoint = [touchView convertPoint:point toView:self];
+        [self moveTouchPoint:drawPoint];
     }
 }
 
-- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+- (void)touchView:(XXAttributedLabelTouchView *)touchView cancelled:(CGPoint)point
 {
-    [super touchesCancelled:touches withEvent:event];
-    
     // 隐藏放大镜
     [self hiddenMagnifyView];
 }
 
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+- (void)touchView:(XXAttributedLabelTouchView *)touchView ended:(CGPoint)point
 {
-    [super touchesEnded:touches withEvent:event];
-    
     // 隐藏放大镜
     [self hiddenMagnifyView];
 }
 
-- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
-{
-    return nil;
-}
 
 #pragma mark -
 
@@ -358,7 +361,8 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
             // 展示放大镜
             if (!self.magnifyView.superview)
             {
-                [self.window addSubview:self.magnifyView];
+                [self.touchView addSubview:self.magnifyView];
+                [self.label setIsDisplayingMagnify:YES];
             }
             
             break;
@@ -448,13 +452,31 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
     return increaseRect;
 }
 
+// 扩大自身尺寸
+- (CGRect)increaseFrame:(CGRect)frame
+{
+    // 扩大选中范围
+    CGFloat x = frame.origin.x - self.edgeInsets.left;
+    CGFloat y = frame.origin.y - self.edgeInsets.top;
+    CGFloat width = frame.size.width + self.edgeInsets.left + self.edgeInsets.right;
+    CGFloat height = frame.size.height + self.edgeInsets.top + self.edgeInsets.bottom;
+    
+    return CGRectMake(x , y, width, height);
+}
+
 #pragma mark -
 
 // 展示选中视图
 - (void)show {
     
+    // 重置选中状态
+    [self.label setSelecting:YES];
+    
     // 添加到label
     [self.label addSubview:self];
+    
+    // 添加触控视图
+    [self.window addSubview:self.touchView];
     
     // 设置开始位置
     [self setStartAtLine:0];
@@ -475,6 +497,9 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
 // 隐藏选中视图
 - (void)hidden {
     
+    // 重置选中状态
+    [self.label setSelecting:NO];
+    
     // 重置拖拽类型
     [self setDragLocation:XXDragLocationNone];
     
@@ -491,6 +516,9 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
     
     // 从label中移除
     [self removeFromSuperview];
+    
+    // 移除触控视图
+    [self.touchView removeFromSuperview];
 }
 
 #pragma mark -
@@ -506,6 +534,7 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
 - (void)hiddenMagnifyView
 {
     [self.magnifyView removeFromSuperview];
+    [self.label setIsDisplayingMagnify:NO];
 }
 
 #pragma mark -

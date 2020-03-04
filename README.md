@@ -15,3 +15,5 @@
 4、代码虽不完善，但您可以随意更改使用，也希望您能帮助更多的人  ^_^
 
 5、支持pod方式导入 ～> pod 'XXAttributedLabel' 
+
+6、pod方式导入需要在Profile中加入source 'https://github.com/CocoaPods/Specs.git'

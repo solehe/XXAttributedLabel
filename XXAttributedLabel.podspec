@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "XXAttributedLabel"
-  spec.version      = "0.0.2"
+  spec.version      = "0.0.3"
   spec.summary      = "基于M80AttributedLabel实现的可选操作，让Label也可以支持复制、选择功能。"
 
   # This description is used to generate tags and improve search results.
@@ -91,7 +91,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.source_files  = "XXAttributedLabel/**/*.{h,m}"
-  #spec.exclude_files = "Classes/Exclude"
+  spec.exclude_files = "XXAttributedLabel/Pods/**"
 
   # spec.public_header_files = "Classes/**/*.h"
 
