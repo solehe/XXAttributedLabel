@@ -91,7 +91,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.source_files  = "XXAttributedLabel/**/*.{h,m}"
-  spec.exclude_files = "XXAttributedLabel/Pods/**"
+  spec.exclude_files = "XXAttributedLabel/XXAttributedLabel/Pods/**"
 
   # spec.public_header_files = "Classes/**/*.h"
 

@@ -206,7 +206,7 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
     
     // 获取X坐标
     CFIndex startAtIndex = (index==self.startAtLine)?self.startAtIndex:0;
-    CFIndex endAtIndex = (index==self.endAtLine)?self.endAtIndex:(CTLineGetGlyphCount(line));
+    CFIndex endAtIndex = (index==self.endAtLine)?self.endAtIndex:[self getLineMaxIndex:index];
     CGFloat xOffset1 = CTLineGetOffsetForStringIndex(line, startAtIndex+begainIndex, nil) + self.edgeInsets.left;
     CGFloat xOffset2 = CTLineGetOffsetForStringIndex(line, endAtIndex+begainIndex, nil) + self.edgeInsets.left;
     
@@ -386,7 +386,7 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
         (lineIndex != self.endAtLine || (lineIndex == self.endAtLine && position != self.endAtIndex)))
     {
         // 开始位置不能移到最后位置
-        CFIndex maxCount = CTLineGetGlyphCount(line);
+        CFIndex maxCount = [self getLineMaxIndex:lineIndex];
         if (maxCount == position)
         {
             position -= 1;
@@ -464,6 +464,25 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
     return CGRectMake(x , y, width, height);
 }
 
+// 获取指定行最大个数
+- (CFIndex)getLineMaxIndex:(CFIndex)index
+{
+    
+    CFArrayRef lines = CTFrameGetLines(self.label.textFrameRef);
+    CTLineRef line = CFArrayGetValueAtIndex(lines, index);
+    
+    // 获取所在行的宽度
+    CGFloat ascent = 0.0f, descent = 0.0f, leading = 0.0f;
+    CTLineGetTypographicBounds(line, &ascent, &descent, &leading);
+    
+    // 获取行高和y坐标开始位置
+    CGFloat lineHeight = (ascent + descent + leading + self.label.lineSpacing);
+    CGFloat yOffset = lineHeight * index + self.edgeInsets.top + lineHeight/2.f;
+    
+    CGPoint point = CGPointMake(CGRectGetWidth(self.bounds), yOffset);
+    return CTLineGetStringIndexForPosition(line, point);
+}
+
 #pragma mark -
 
 // 展示选中视图
@@ -487,8 +506,8 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
     CFIndex numberOfLines = CFArrayGetCount(lines);
     [self setEndAtLine:numberOfLines-1];
     
-    CTLineRef line = CFArrayGetValueAtIndex(lines, self.endAtLine);
-    [self setEndAtIndex:CTLineGetGlyphCount(line)];
+    CFIndex position = [self getLineMaxIndex:self.endAtLine];
+    [self setEndAtIndex:position];
     
     // 重绘
     [self setNeedsDisplay];
