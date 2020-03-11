@@ -58,6 +58,13 @@
     return _selectedAnchorColor;
 }
 
+- (void)setFrame:(CGRect)frame
+{
+    [super setFrame:frame];
+    
+    [self.drawView setBounds:self.bounds];
+}
+
 - (void)setBounds:(CGRect)bounds
 {
     [super setBounds:bounds];

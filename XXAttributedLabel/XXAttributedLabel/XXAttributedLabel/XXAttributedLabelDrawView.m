@@ -106,7 +106,7 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
 {
     if (UIEdgeInsetsEqualToEdgeInsets(_edgeInsets, UIEdgeInsetsZero))
     {
-        _edgeInsets = UIEdgeInsetsMake(10, 10, 10, 10);
+        _edgeInsets = UIEdgeInsetsMake(10, 10, 12, 10);
     }
     return _edgeInsets;
 }
@@ -467,7 +467,6 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
 // 获取指定行最大个数
 - (CFIndex)getLineMaxIndex:(CFIndex)index
 {
-    
     CFArrayRef lines = CTFrameGetLines(self.label.textFrameRef);
     CTLineRef line = CFArrayGetValueAtIndex(lines, index);
     
@@ -480,7 +479,15 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
     CGFloat yOffset = lineHeight * index + self.edgeInsets.top + lineHeight/2.f;
     
     CGPoint point = CGPointMake(CGRectGetWidth(self.bounds), yOffset);
-    return CTLineGetStringIndexForPosition(line, point);
+    
+    // 计算当前行第一个字符位置
+    __block CFIndex begainIndex = 0;
+    CTLineEnumerateCaretOffsets(line, ^(double offset, CFIndex charIndex, bool leadingEdge, bool * _Nonnull stop) {
+        begainIndex = charIndex;
+        *stop = YES;
+    });
+    
+    return CTLineGetStringIndexForPosition(line, point) - begainIndex;
 }
 
 #pragma mark -

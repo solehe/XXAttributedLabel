@@ -90,8 +90,8 @@ Pod::Spec.new do |spec|
   #  Not including the public_header_files will make all headers public.
   #
 
-  spec.source_files  = "XXAttributedLabel/**/*.{h,m}"
-  spec.exclude_files = "XXAttributedLabel/XXAttributedLabel/Pods/**"
+  spec.source_files  = 'XXAttributedLabel/XXAttributedLabel/XX*.{h,m}', 'XXAttributedLabel/XXAttributedLabel/M80AttributedLabel+M80.{h,m}'
+  # spec.exclude_files = "XXAttributedLabel/XXAttributedLabel/Pods/**"
 
   # spec.public_header_files = "Classes/**/*.h"
 
