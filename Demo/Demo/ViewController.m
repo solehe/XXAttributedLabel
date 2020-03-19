@@ -122,14 +122,14 @@
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender
 {
-    if (action == @selector(paste:)) {
+    if (action == @selector(copy:)) {
         return YES;
     } else {
         return NO;
     }
 }
 
-- (void)paste:(id)obj {
+- (void)copy:(id)obj {
     XXAttributedLabel *label = [self.view viewWithTag:1024];
     [[UIPasteboard generalPasteboard] setString:label.selectedText];
     NSLog(@"复制到粘贴板的文本：%@", label.selectedText);
