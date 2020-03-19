@@ -6,9 +6,8 @@
 
 ## Image
 
-<img src="./picture.png" width="320">
+<img src="https://github.com/solehe/XXAttributedLabel/blob/master/picture.png" width="320">
 
-```objc
 
 注：
 
