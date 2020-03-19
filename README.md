@@ -2,10 +2,6 @@
 
 基于M80AttributedLabel实现的可选操作，让Label也可以支持复制、选择功能。
 
-```
-
-## Image
-
 <img src="https://github.com/solehe/XXAttributedLabel/blob/master/picture.png" width="320">
 
 
