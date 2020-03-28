@@ -106,7 +106,7 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
 {
     if (UIEdgeInsetsEqualToEdgeInsets(_edgeInsets, UIEdgeInsetsZero))
     {
-        _edgeInsets = UIEdgeInsetsMake(10, 10, 12, 10);
+        _edgeInsets = UIEdgeInsetsMake(10, 10, 10, 10);
     }
     return _edgeInsets;
 }
@@ -175,17 +175,33 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
         
         // 获取行数
         CGPoint lineOrigins[numberOfLines];
-        CTFrameGetLineOrigins(self.label.textFrameRef, CFRangeMake(0, numberOfLines), lineOrigins);
+        CTFrameGetLineOrigins(self.label.textFrameRef, CFRangeMake(0, 0), lineOrigins);
         
         // 开始绘制
         if (self.startAtIndex < self.endAtIndex || self.startAtLine < self.endAtLine)
         {
+            // 竖直方向上的开始坐标
+            CGFloat yOffset = self.edgeInsets.top;
+            
             // 分行绘制
-            for (CFIndex i=self.startAtLine; i<=self.endAtLine; i++)
+            for (CFIndex i=0; i<=self.endAtLine; i++)
             {
                 CTLineRef line = CFArrayGetValueAtIndex(lines, i);
                 
-                [self drawContext:context line:line index:i];
+                // 获取所在行的宽度
+                CGFloat ascent = 0.0f, descent = 0.0f, leading = 0.0f;
+                CTLineGetTypographicBounds(line, &ascent, &descent, &leading);
+                
+                // 获取行高和y坐标开始位置
+                CGFloat lineHeight = (ascent + descent + self.label.lineSpacing);
+                
+                // 绘制
+                if (i >= self.startAtLine) {
+                    [self drawContext:context line:line index:i yOffset:yOffset lineHeight:lineHeight];
+                }
+                
+                // 更新下一行起点位置
+                yOffset += lineHeight;
             }
         }
     }
@@ -195,7 +211,7 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
     }
 }
 
-- (void)drawContext:(CGContextRef)context line:(CTLineRef)line index:(CFIndex)index {
+- (void)drawContext:(CGContextRef)context line:(CTLineRef)line index:(CFIndex)index yOffset:(CGFloat)yOffset lineHeight:(CGFloat)lineHeight {
     
     // 计算当前行第一个字符位置
     __block CFIndex begainIndex = 0;
@@ -209,14 +225,6 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
     CFIndex endAtIndex = (index==self.endAtLine)?self.endAtIndex:[self getLineMaxIndex:index];
     CGFloat xOffset1 = CTLineGetOffsetForStringIndex(line, startAtIndex+begainIndex, nil) + self.edgeInsets.left;
     CGFloat xOffset2 = CTLineGetOffsetForStringIndex(line, endAtIndex+begainIndex, nil) + self.edgeInsets.left;
-    
-    // 获取所在行的宽度
-    CGFloat ascent = 0.0f, descent = 0.0f, leading = 0.0f;
-    CTLineGetTypographicBounds(line, &ascent, &descent, &leading);
-    
-    // 获取行高和y坐标开始位置
-    CGFloat lineHeight = (ascent + descent + leading + self.label.lineSpacing);
-    CGFloat yOffset = lineHeight * index + self.edgeInsets.top;
     
     // 绘制
     CGContextSetFillColorWithColor(context, self.label.selectedBackgroundColor.CGColor);
@@ -340,6 +348,8 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
     CFArrayRef lines = CTFrameGetLines(self.label.textFrameRef);
     CFIndex numberOfLines = CFArrayGetCount(lines);
     
+    CGFloat yOffset = self.edgeInsets.top;
+    
     // 查找点击所在的位置
     for (CFIndex i=0; i<numberOfLines; i++)
     {
@@ -350,8 +360,7 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
         CTLineGetTypographicBounds(line, &ascent, &descent, &leading);
         
         // 获取行高和y坐标开始位置
-        CGFloat lineHeight = (ascent + descent + leading + self.label.lineSpacing);
-        CGFloat yOffset = lineHeight * i + self.edgeInsets.top;
+        CGFloat lineHeight = (ascent + descent + self.label.lineSpacing);
         
         if (point.y >= yOffset && point.y <= yOffset+lineHeight)
         {
@@ -367,6 +376,8 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
             
             break;
         }
+        
+        yOffset += lineHeight;
     }
 }
 
@@ -468,26 +479,44 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
 - (CFIndex)getLineMaxIndex:(CFIndex)index
 {
     CFArrayRef lines = CTFrameGetLines(self.label.textFrameRef);
-    CTLineRef line = CFArrayGetValueAtIndex(lines, index);
+    CFIndex numberOfLines = CFArrayGetCount(lines);
+    if (numberOfLines <= 0)
+    {
+        return 0;
+    }
     
-    // 获取所在行的宽度
-    CGFloat ascent = 0.0f, descent = 0.0f, leading = 0.0f;
-    CTLineGetTypographicBounds(line, &ascent, &descent, &leading);
+    CGFloat yOffset = self.edgeInsets.top;
     
-    // 获取行高和y坐标开始位置
-    CGFloat lineHeight = (ascent + descent + leading + self.label.lineSpacing);
-    CGFloat yOffset = lineHeight * index + self.edgeInsets.top + lineHeight/2.f;
+    // 查找点击所在的位置
+    for (CFIndex i=0; i<numberOfLines; i++)
+    {
+        CTLineRef line = CFArrayGetValueAtIndex(lines, i);
+        
+        // 获取所在行的宽度
+        CGFloat ascent = 0.0f, descent = 0.0f, leading = 0.0f;
+        CTLineGetTypographicBounds(line, &ascent, &descent, &leading);
+        
+        // 获取行高和y坐标开始位置
+        CGFloat lineHeight = (ascent + descent + self.label.lineSpacing);
+        
+        if (index == i)
+        {
+            CGPoint point = CGPointMake(CGRectGetWidth(self.bounds), yOffset);
+            
+            // 计算当前行第一个字符位置
+            __block CFIndex begainIndex = 0;
+            CTLineEnumerateCaretOffsets(line, ^(double offset, CFIndex charIndex, bool leadingEdge, bool * _Nonnull stop) {
+                begainIndex = charIndex;
+                *stop = YES;
+            });
+            
+            return CTLineGetStringIndexForPosition(line, point) - begainIndex;
+        }
+        
+        yOffset += lineHeight;
+    }
     
-    CGPoint point = CGPointMake(CGRectGetWidth(self.bounds), yOffset);
-    
-    // 计算当前行第一个字符位置
-    __block CFIndex begainIndex = 0;
-    CTLineEnumerateCaretOffsets(line, ^(double offset, CFIndex charIndex, bool leadingEdge, bool * _Nonnull stop) {
-        begainIndex = charIndex;
-        *stop = YES;
-    });
-    
-    return CTLineGetStringIndexForPosition(line, point) - begainIndex;
+    return 0;
 }
 
 #pragma mark -
