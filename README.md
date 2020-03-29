@@ -8,9 +8,10 @@
 注：
 
 1、由于是基于M80AttributedLabel进行的扩展，因此除新增了选择功能外，其他属性使用请参照：
-      M80AttributedLabel  -->  https://github.com/xiangwangfeng/M80AttributedLabel
+      
+  M80AttributedLabel  -->  https://github.com/xiangwangfeng/M80AttributedLabel
     
-2、XXAttributedLabel只实现了选择效果，具体与「Menu」怎么配合使用会持续完善……
+2、如果你最终选择了使用XXAttributedLabel，请记得给一颗star，它将是我继续下去的动力……
 
 3、如果有问题需要探讨，可发送邮件至 soleworld@163.com
 
