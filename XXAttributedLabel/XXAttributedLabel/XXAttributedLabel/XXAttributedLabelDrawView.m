@@ -221,10 +221,21 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
     });
     
     // 获取X坐标
+    CGFloat lineLength = [self getLineMaxIndex:index];
+    CGFloat lineStartX = CTLineGetOffsetForStringIndex(line, begainIndex, nil);
+    CGFloat lineEndX = CTLineGetOffsetForStringIndex(line, lineLength+begainIndex, nil);
+    // 适配居中靠右的偏移量
+    CGFloat extraOffX = self.edgeInsets.left;
+    if (self.label.textAlignment == kCTTextAlignmentRight) {
+        extraOffX = CGRectGetWidth(self.bounds) - self.edgeInsets.right - (lineEndX-lineStartX);
+    }else if (self.label.textAlignment == kCTTextAlignmentCenter) {
+        extraOffX = (CGRectGetWidth(self.bounds) - (lineEndX-lineStartX))/2;
+    }
+    
     CFIndex startAtIndex = (index==self.startAtLine)?self.startAtIndex:0;
-    CFIndex endAtIndex = (index==self.endAtLine)?self.endAtIndex:[self getLineMaxIndex:index];
-    CGFloat xOffset1 = CTLineGetOffsetForStringIndex(line, startAtIndex+begainIndex, nil) + self.edgeInsets.left;
-    CGFloat xOffset2 = CTLineGetOffsetForStringIndex(line, endAtIndex+begainIndex, nil) + self.edgeInsets.left;
+    CFIndex endAtIndex = (index==self.endAtLine)?self.endAtIndex:lineLength;
+    CGFloat xOffset1 = CTLineGetOffsetForStringIndex(line, startAtIndex+begainIndex, nil) + extraOffX;
+    CGFloat xOffset2 = CTLineGetOffsetForStringIndex(line, endAtIndex+begainIndex, nil) + extraOffX;
     
     // 绘制
     CGContextSetFillColorWithColor(context, self.label.selectedBackgroundColor.CGColor);
@@ -391,6 +402,15 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
         *stop = YES;
     });
     
+    // 适配居中，靠右布局
+    CFIndex lineEndIndex = [self getLineMaxIndex:lineIndex]+begainIndex;
+    CGFloat xOffset1 = CTLineGetOffsetForStringIndex(line, begainIndex, nil);
+    CGFloat xOffset2 = CTLineGetOffsetForStringIndex(line, lineEndIndex, nil);
+    if (self.label.textAlignment == kCTTextAlignmentRight) {
+        point = CGPointMake(point.x - (CGRectGetWidth(self.frame)-self.edgeInsets.left-self.edgeInsets.right-(xOffset2-xOffset1)), point.y);
+    }else if (self.label.textAlignment == kCTTextAlignmentCenter) {
+        point = CGPointMake(point.x - (CGRectGetWidth(self.frame)-self.edgeInsets.left-self.edgeInsets.right-(xOffset2-xOffset1))/2, point.y);
+    }
     CFIndex position = CTLineGetStringIndexForPosition(line, point) - begainIndex;
     
     if (self.dragLocation == XXDragLocationStart &&
