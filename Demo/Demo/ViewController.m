@@ -34,9 +34,10 @@
     [label setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.1]];
     [label setTag:1024];
 
-    NSString *text  = @"你可以前往https://github.com/solehe/XXAttributedLabel下载源代码";
+    NSString *text  = @"你可以前往https://github.com/solehe/XXAttributedLabel下载源代码 你可以前往https://github.com/solehe/XXAttributedLabel下载源代码 你可以前往https://github.com/solehe/XXAttributedLabel下载源代码";
     NSRange range   = [text rangeOfString:@"https://github.com/solehe/XXAttributedLabel"];
     label.text      = text;
+    label.textAlignment = kCTTextAlignmentLeft;
     [label addCustomLink:[NSValue valueWithRange:range] forRange:range];
     label.delegate  = self;
 

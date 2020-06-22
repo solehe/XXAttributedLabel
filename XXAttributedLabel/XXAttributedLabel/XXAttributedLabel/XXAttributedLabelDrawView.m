@@ -221,10 +221,12 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
     });
     
     // 获取X坐标
+    double xOffset = [self getXOffset:line];
     CFIndex startAtIndex = (index==self.startAtLine)?self.startAtIndex:0;
     CFIndex endAtIndex = (index==self.endAtLine)?self.endAtIndex:[self getLineMaxIndex:index];
-    CGFloat xOffset1 = CTLineGetOffsetForStringIndex(line, startAtIndex+begainIndex, nil) + self.edgeInsets.left;
-    CGFloat xOffset2 = CTLineGetOffsetForStringIndex(line, endAtIndex+begainIndex, nil) + self.edgeInsets.left;
+    CGFloat width = self.frame.size.width-self.edgeInsets.left-self.edgeInsets.right;
+    CGFloat xOffset1 = CTLineGetOffsetForStringIndex(line, startAtIndex+begainIndex, nil) + self.edgeInsets.left + xOffset;
+    CGFloat xOffset2 = CTLineGetOffsetForStringIndex(line, endAtIndex+begainIndex, nil) + self.edgeInsets.left + xOffset;
     
     // 绘制
     CGContextSetFillColorWithColor(context, self.label.selectedBackgroundColor.CGColor);
@@ -391,6 +393,9 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
         *stop = YES;
     });
     
+    // 获取调整后的坐标
+    point = CGPointMake(point.x - [self getXOffset:line], point.y);
+    
     CFIndex position = CTLineGetStringIndexForPosition(line, point) - begainIndex;
     
     if (self.dragLocation == XXDragLocationStart &&
@@ -517,6 +522,23 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
     }
     
     return 0;
+}
+
+// 获取制定行在X轴对应的偏移量
+- (CGFloat)getXOffset:(CTLineRef)line
+{
+    CGFloat flushFactor = 0.0;
+    
+    if (self.label.textAlignment == kCTTextAlignmentCenter)
+    {
+        flushFactor = 0.5;
+    }
+    else if (self.label.textAlignment == kCTTextAlignmentRight) {
+        flushFactor = 1.0;
+    }
+    
+    CGFloat width = self.frame.size.width-self.edgeInsets.left-self.edgeInsets.right;
+    return CTLineGetPenOffsetForFlush(line, flushFactor, width);
 }
 
 #pragma mark -
