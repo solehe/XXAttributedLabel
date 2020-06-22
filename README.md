@@ -21,4 +21,4 @@
 
 6、pod方式导入需要在Profile中加入source 'https://github.com/CocoaPods/Specs.git'
 
-7、感谢<a herf="https://github.com/xuanyuelin">xuanyuelin</a>提出的#pref :适配lable的居中靠右布局#。
+7、感谢<a href="https://github.com/xuanyuelin">xuanyuelin</a>提出的#pref :适配lable的居中靠右布局#。
