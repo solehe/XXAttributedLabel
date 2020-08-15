@@ -7,26 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5222FE7624E774BD00E7A350 /* AttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5222FE7524E774BD00E7A350 /* AttributedLabel.m */; };
+		5222FE9C24E7801200E7A350 /* XXAtributedLableLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 5222FE9B24E7801200E7A350 /* XXAtributedLableLink.m */; };
+		522BDB6124E7B1CF0079B599 /* XXAttributedLabelAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 522BDB6024E7B1CF0079B599 /* XXAttributedLabelAttachment.m */; };
 		85817D722419222900A42032 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 85817D712419222900A42032 /* AppDelegate.m */; };
 		85817D782419222900A42032 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 85817D772419222900A42032 /* ViewController.m */; };
 		85817D7B2419222900A42032 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85817D792419222900A42032 /* Main.storyboard */; };
 		85817D7D2419222A00A42032 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85817D7C2419222A00A42032 /* Assets.xcassets */; };
 		85817D802419222A00A42032 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85817D7E2419222A00A42032 /* LaunchScreen.storyboard */; };
 		85817D832419222A00A42032 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 85817D822419222A00A42032 /* main.m */; };
-		85817DF5241922B700A42032 /* XXAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 85817DEC241922B700A42032 /* XXAttributedLabel.m */; };
-		85817DF6241922B700A42032 /* XXAttributedLabelMagnifyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 85817DED241922B700A42032 /* XXAttributedLabelMagnifyView.m */; };
-		85817DF7241922B700A42032 /* XXAttributedLabelTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 85817DF0241922B700A42032 /* XXAttributedLabelTouchView.m */; };
-		85817DF8241922B700A42032 /* M80AttributedLabel+M80.m in Sources */ = {isa = PBXBuildFile; fileRef = 85817DF3241922B700A42032 /* M80AttributedLabel+M80.m */; };
-		85817DF9241922B700A42032 /* XXAttributedLabelDrawView.m in Sources */ = {isa = PBXBuildFile; fileRef = 85817DF4241922B700A42032 /* XXAttributedLabelDrawView.m */; };
-		85817E06241922D900A42032 /* M80AttributedLabelAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 85817DFE241922D900A42032 /* M80AttributedLabelAttachment.m */; };
-		85817E07241922D900A42032 /* M80AttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 85817E01241922D900A42032 /* M80AttributedLabel.m */; };
-		85817E08241922D900A42032 /* M80AttributedLabelURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 85817E02241922D900A42032 /* M80AttributedLabelURL.m */; };
-		85817E09241922D900A42032 /* M80AttributedLabelURLDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = 85817E04241922D900A42032 /* M80AttributedLabelURLDetector.m */; };
-		85817E0A241922D900A42032 /* NSMutableAttributedString+M80.m in Sources */ = {isa = PBXBuildFile; fileRef = 85817E05241922D900A42032 /* NSMutableAttributedString+M80.m */; };
 		85817E0D2419231200A42032 /* TouchTestView.m in Sources */ = {isa = PBXBuildFile; fileRef = 85817E0B2419231100A42032 /* TouchTestView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5222FE7424E774BD00E7A350 /* AttributedLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AttributedLabel.h; sourceTree = "<group>"; };
+		5222FE7524E774BD00E7A350 /* AttributedLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AttributedLabel.m; sourceTree = "<group>"; };
+		5222FE9A24E7801200E7A350 /* XXAtributedLableLink.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXAtributedLableLink.h; sourceTree = "<group>"; };
+		5222FE9B24E7801200E7A350 /* XXAtributedLableLink.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XXAtributedLableLink.m; sourceTree = "<group>"; };
+		522BDB5F24E7B1CF0079B599 /* XXAttributedLabelAttachment.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXAttributedLabelAttachment.h; sourceTree = "<group>"; };
+		522BDB6024E7B1CF0079B599 /* XXAttributedLabelAttachment.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XXAttributedLabelAttachment.m; sourceTree = "<group>"; };
+		522BDB6224E7B2560079B599 /* XXAtributedLabelHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XXAtributedLabelHeader.h; sourceTree = "<group>"; };
 		85817D6D2419222900A42032 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85817D702419222900A42032 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		85817D712419222900A42032 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -37,27 +37,6 @@
 		85817D7F2419222A00A42032 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		85817D812419222A00A42032 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		85817D822419222A00A42032 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		85817DEB241922B700A42032 /* XXAttributedLabelTouchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXAttributedLabelTouchView.h; sourceTree = "<group>"; };
-		85817DEC241922B700A42032 /* XXAttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXAttributedLabel.m; sourceTree = "<group>"; };
-		85817DED241922B700A42032 /* XXAttributedLabelMagnifyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXAttributedLabelMagnifyView.m; sourceTree = "<group>"; };
-		85817DEE241922B700A42032 /* XXAttributedLabelDrawView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXAttributedLabelDrawView.h; sourceTree = "<group>"; };
-		85817DEF241922B700A42032 /* M80AttributedLabel+M80.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "M80AttributedLabel+M80.h"; sourceTree = "<group>"; };
-		85817DF0241922B700A42032 /* XXAttributedLabelTouchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXAttributedLabelTouchView.m; sourceTree = "<group>"; };
-		85817DF1241922B700A42032 /* XXAttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXAttributedLabel.h; sourceTree = "<group>"; };
-		85817DF2241922B700A42032 /* XXAttributedLabelMagnifyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXAttributedLabelMagnifyView.h; sourceTree = "<group>"; };
-		85817DF3241922B700A42032 /* M80AttributedLabel+M80.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "M80AttributedLabel+M80.m"; sourceTree = "<group>"; };
-		85817DF4241922B700A42032 /* XXAttributedLabelDrawView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXAttributedLabelDrawView.m; sourceTree = "<group>"; };
-		85817DFB241922D900A42032 /* M80AttributedLabelDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M80AttributedLabelDefines.h; sourceTree = "<group>"; };
-		85817DFC241922D900A42032 /* M80AttributedLabelURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M80AttributedLabelURL.h; sourceTree = "<group>"; };
-		85817DFD241922D900A42032 /* M80AttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M80AttributedLabel.h; sourceTree = "<group>"; };
-		85817DFE241922D900A42032 /* M80AttributedLabelAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = M80AttributedLabelAttachment.m; sourceTree = "<group>"; };
-		85817DFF241922D900A42032 /* M80AttributedLabelURLDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M80AttributedLabelURLDetector.h; sourceTree = "<group>"; };
-		85817E00241922D900A42032 /* NSMutableAttributedString+M80.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableAttributedString+M80.h"; sourceTree = "<group>"; };
-		85817E01241922D900A42032 /* M80AttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = M80AttributedLabel.m; sourceTree = "<group>"; };
-		85817E02241922D900A42032 /* M80AttributedLabelURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = M80AttributedLabelURL.m; sourceTree = "<group>"; };
-		85817E03241922D900A42032 /* M80AttributedLabelAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M80AttributedLabelAttachment.h; sourceTree = "<group>"; };
-		85817E04241922D900A42032 /* M80AttributedLabelURLDetector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = M80AttributedLabelURLDetector.m; sourceTree = "<group>"; };
-		85817E05241922D900A42032 /* NSMutableAttributedString+M80.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableAttributedString+M80.m"; sourceTree = "<group>"; };
 		85817E0B2419231100A42032 /* TouchTestView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchTestView.m; sourceTree = "<group>"; };
 		85817E0C2419231100A42032 /* TouchTestView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchTestView.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -73,11 +52,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5222FE9924E77BFC00E7A350 /* AttributedLabel */ = {
+			isa = PBXGroup;
+			children = (
+				5222FE7424E774BD00E7A350 /* AttributedLabel.h */,
+				5222FE7524E774BD00E7A350 /* AttributedLabel.m */,
+				5222FE9A24E7801200E7A350 /* XXAtributedLableLink.h */,
+				5222FE9B24E7801200E7A350 /* XXAtributedLableLink.m */,
+				522BDB5F24E7B1CF0079B599 /* XXAttributedLabelAttachment.h */,
+				522BDB6024E7B1CF0079B599 /* XXAttributedLabelAttachment.m */,
+				522BDB6224E7B2560079B599 /* XXAtributedLabelHeader.h */,
+			);
+			path = AttributedLabel;
+			sourceTree = "<group>";
+		};
 		85817D642419222900A42032 = {
 			isa = PBXGroup;
 			children = (
-				85817DFA241922D900A42032 /* M80AttributedLabel */,
-				85817DEA241922B700A42032 /* XXAttributedLabel */,
+				5222FE9924E77BFC00E7A350 /* AttributedLabel */,
 				85817D6F2419222900A42032 /* Demo */,
 				85817D6E2419222900A42032 /* Products */,
 			);
@@ -107,43 +99,6 @@
 				85817D822419222A00A42032 /* main.m */,
 			);
 			path = Demo;
-			sourceTree = "<group>";
-		};
-		85817DEA241922B700A42032 /* XXAttributedLabel */ = {
-			isa = PBXGroup;
-			children = (
-				85817DEF241922B700A42032 /* M80AttributedLabel+M80.h */,
-				85817DF3241922B700A42032 /* M80AttributedLabel+M80.m */,
-				85817DF1241922B700A42032 /* XXAttributedLabel.h */,
-				85817DEC241922B700A42032 /* XXAttributedLabel.m */,
-				85817DEE241922B700A42032 /* XXAttributedLabelDrawView.h */,
-				85817DF4241922B700A42032 /* XXAttributedLabelDrawView.m */,
-				85817DF2241922B700A42032 /* XXAttributedLabelMagnifyView.h */,
-				85817DED241922B700A42032 /* XXAttributedLabelMagnifyView.m */,
-				85817DEB241922B700A42032 /* XXAttributedLabelTouchView.h */,
-				85817DF0241922B700A42032 /* XXAttributedLabelTouchView.m */,
-			);
-			name = XXAttributedLabel;
-			path = ../XXAttributedLabel/XXAttributedLabel/XXAttributedLabel;
-			sourceTree = "<group>";
-		};
-		85817DFA241922D900A42032 /* M80AttributedLabel */ = {
-			isa = PBXGroup;
-			children = (
-				85817DFB241922D900A42032 /* M80AttributedLabelDefines.h */,
-				85817DFC241922D900A42032 /* M80AttributedLabelURL.h */,
-				85817DFD241922D900A42032 /* M80AttributedLabel.h */,
-				85817DFE241922D900A42032 /* M80AttributedLabelAttachment.m */,
-				85817DFF241922D900A42032 /* M80AttributedLabelURLDetector.h */,
-				85817E00241922D900A42032 /* NSMutableAttributedString+M80.h */,
-				85817E01241922D900A42032 /* M80AttributedLabel.m */,
-				85817E02241922D900A42032 /* M80AttributedLabelURL.m */,
-				85817E03241922D900A42032 /* M80AttributedLabelAttachment.h */,
-				85817E04241922D900A42032 /* M80AttributedLabelURLDetector.m */,
-				85817E05241922D900A42032 /* NSMutableAttributedString+M80.m */,
-			);
-			name = M80AttributedLabel;
-			path = ../XXAttributedLabel/Pods/M80AttributedLabel/M80AttributedLabel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -217,19 +172,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				85817E0D2419231200A42032 /* TouchTestView.m in Sources */,
-				85817E09241922D900A42032 /* M80AttributedLabelURLDetector.m in Sources */,
 				85817D782419222900A42032 /* ViewController.m in Sources */,
-				85817E08241922D900A42032 /* M80AttributedLabelURL.m in Sources */,
 				85817D722419222900A42032 /* AppDelegate.m in Sources */,
-				85817DF6241922B700A42032 /* XXAttributedLabelMagnifyView.m in Sources */,
-				85817DF8241922B700A42032 /* M80AttributedLabel+M80.m in Sources */,
-				85817E06241922D900A42032 /* M80AttributedLabelAttachment.m in Sources */,
-				85817DF7241922B700A42032 /* XXAttributedLabelTouchView.m in Sources */,
-				85817E07241922D900A42032 /* M80AttributedLabel.m in Sources */,
-				85817DF5241922B700A42032 /* XXAttributedLabel.m in Sources */,
+				5222FE9C24E7801200E7A350 /* XXAtributedLableLink.m in Sources */,
+				5222FE7624E774BD00E7A350 /* AttributedLabel.m in Sources */,
+				522BDB6124E7B1CF0079B599 /* XXAttributedLabelAttachment.m in Sources */,
 				85817D832419222A00A42032 /* main.m in Sources */,
-				85817E0A241922D900A42032 /* NSMutableAttributedString+M80.m in Sources */,
-				85817DF9241922B700A42032 /* XXAttributedLabelDrawView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
