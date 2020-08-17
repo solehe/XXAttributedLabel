@@ -8,7 +8,7 @@
 
 #import <CoreText/CoreText.h>
 
-#import "M80AttributedLabel+M80.h"
+#import "TMAttributedLabel+XX.h"
 #import "XXAttributedLabelMagnifyView.h"
 #import "XXAttributedLabelTouchView.h"
 #import "XXAttributedLabelDrawView.h"
@@ -165,6 +165,9 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
 
 - (void)drawRect:(CGRect)rect {
     
+    // First, get the text rect (which takes vertical centering into account)
+    CGRect textRect = [self.label textRectForBounds:rect limitedToNumberOfLines:self.label.numberOfLines];
+    
     // 处于选择状态
     if (self.selecting && self.startAtLine <= self.endAtLine)
     {
@@ -181,7 +184,10 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
         if (self.startAtIndex < self.endAtIndex || self.startAtLine < self.endAtLine)
         {
             // 竖直方向上的开始坐标
-            CGFloat yOffset = self.edgeInsets.top;
+            CGFloat yOffset = self.edgeInsets.top + textRect.origin.y;
+            
+            // 左右方向上的开始坐标
+            CGFloat xOffset = self.edgeInsets.left + textRect.origin.x;
             
             // 分行绘制
             for (CFIndex i=0; i<=self.endAtLine; i++)
@@ -197,7 +203,7 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
                 
                 // 绘制
                 if (i >= self.startAtLine) {
-                    [self drawContext:context line:line index:i yOffset:yOffset lineHeight:lineHeight];
+                    [self drawContext:context line:line index:i xOffset:xOffset yOffset:yOffset lineHeight:lineHeight];
                 }
                 
                 // 更新下一行起点位置
@@ -211,7 +217,7 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
     }
 }
 
-- (void)drawContext:(CGContextRef)context line:(CTLineRef)line index:(CFIndex)index yOffset:(CGFloat)yOffset lineHeight:(CGFloat)lineHeight {
+- (void)drawContext:(CGContextRef)context line:(CTLineRef)line index:(CFIndex)index xOffset:(CGFloat)xOffset yOffset:(CGFloat)yOffset lineHeight:(CGFloat)lineHeight {
     
     // 计算当前行第一个字符位置
     __block CFIndex begainIndex = 0;
@@ -221,12 +227,10 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
     });
     
     // 获取X坐标
-    double xOffset = [self getXOffset:line];
     CFIndex startAtIndex = (index==self.startAtLine)?self.startAtIndex:0;
     CFIndex endAtIndex = (index==self.endAtLine)?self.endAtIndex:[self getLineMaxIndex:index];
-    CGFloat width = self.frame.size.width-self.edgeInsets.left-self.edgeInsets.right;
-    CGFloat xOffset1 = CTLineGetOffsetForStringIndex(line, startAtIndex+begainIndex, nil) + self.edgeInsets.left + xOffset;
-    CGFloat xOffset2 = CTLineGetOffsetForStringIndex(line, endAtIndex+begainIndex, nil) + self.edgeInsets.left + xOffset;
+    CGFloat xOffset1 = CTLineGetOffsetForStringIndex(line, startAtIndex+begainIndex, nil) + xOffset;
+    CGFloat xOffset2 = CTLineGetOffsetForStringIndex(line, endAtIndex+begainIndex, nil) + xOffset;
     
     // 绘制
     CGContextSetFillColorWithColor(context, self.label.selectedBackgroundColor.CGColor);
@@ -347,10 +351,13 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
 // 移动选中锚点
 - (void)moveTouchPoint:(CGPoint)point {
     
+    // First, get the text rect (which takes vertical centering into account)
+    CGRect textRect = [self.label textRectForBounds:self.label.bounds limitedToNumberOfLines:self.label.numberOfLines];
+    
     CFArrayRef lines = CTFrameGetLines(self.label.textFrameRef);
     CFIndex numberOfLines = CFArrayGetCount(lines);
     
-    CGFloat yOffset = self.edgeInsets.top;
+    CGFloat yOffset = self.edgeInsets.top + textRect.origin.y;
     
     // 查找点击所在的位置
     for (CFIndex i=0; i<numberOfLines; i++)
@@ -393,9 +400,6 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
         *stop = YES;
     });
     
-    // 获取调整后的坐标
-    point = CGPointMake(point.x - [self getXOffset:line], point.y);
-    
     CFIndex position = CTLineGetStringIndexForPosition(line, point) - begainIndex;
     
     if (self.dragLocation == XXDragLocationStart &&
@@ -434,11 +438,17 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
         
         [self setNeedsDisplay];
     }
+    
+    // 选中位置变化
+    if (self.SelectedRangeChangedBlock)
+    {
+        self.SelectedRangeChangedBlock([self selecedRange]);
+    }
 }
 
 // 交换开始和结束位置
-- (void)exchangeLocation {
-    
+- (void)exchangeLocation
+{
     // 交换位置类型
     if (self.dragLocation == XXDragLocationEnd)
     {
@@ -459,7 +469,8 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
 }
 
 // 扩大范围
-- (CGRect)increaseRect:(CGRect)rect {
+- (CGRect)increaseRect:(CGRect)rect
+{
     CGRect increaseRect = rect;
     increaseRect.origin.x -= 10;
     increaseRect.origin.y -= 10;
@@ -522,23 +533,6 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
     }
     
     return 0;
-}
-
-// 获取制定行在X轴对应的偏移量
-- (CGFloat)getXOffset:(CTLineRef)line
-{
-    CGFloat flushFactor = 0.0;
-    
-    if (self.label.textAlignment == kCTTextAlignmentCenter)
-    {
-        flushFactor = 0.5;
-    }
-    else if (self.label.textAlignment == kCTTextAlignmentRight) {
-        flushFactor = 1.0;
-    }
-    
-    CGFloat width = self.frame.size.width-self.edgeInsets.left-self.edgeInsets.right;
-    return CTLineGetPenOffsetForFlush(line, flushFactor, width);
 }
 
 #pragma mark -

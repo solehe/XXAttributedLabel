@@ -9,7 +9,7 @@
 #import <objc/runtime.h>
 #import "XXAttributedLabel.h"
 #import "XXAttributedLabelDrawView.h"
-#import "M80AttributedLabelURL.h"
+#import "TMAttributedLabelLink.h"
 
 @interface XXAttributedLabel ()
 
@@ -22,6 +22,8 @@
 // 是否是长按链接
 @property (nonatomic, assign) BOOL isLongPressedLink;
 
+// 开始触碰时间
+@property (nonatomic, assign) NSTimeInterval touchTimeInterval;
 
 @end
 
@@ -93,11 +95,28 @@
     if (_selecting != selecting && _enableSelected)
     {
         _selecting = selecting;
+        
         [self.drawView setSelecting:selecting];
         
         if (self.selectingListenBlock)
         {
             self.selectingListenBlock(selecting);
+        }
+        
+        if (selecting)
+        {
+            __weak typeof(self) weakSelf = self;
+            [self.drawView setSelectedRangeChangedBlock:^(NSRange range)
+            {
+                if (weakSelf.selectedChangeListenBlock)
+                {
+                    weakSelf.selectedChangeListenBlock(range.location == 0 && range.length == weakSelf.text.length);
+                }
+            }];
+        }
+        else
+        {
+            [self.drawView setSelectedRangeChangedBlock:nil];
         }
     }
 }
@@ -122,7 +141,7 @@
 {
     if (self.drawView.selecting)
     {
-        [self setValue:nil forKeyPath:@"touchedLink"];
+        [self setValue:nil forKeyPath:@"activeLink"];
     }
     
     [super drawRect:rect];
@@ -132,6 +151,9 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [super touchesBegan:touches withEvent:event];
+    
+    // 缓存触碰时间
+    [self setTouchTimeInterval:[[NSDate date] timeIntervalSince1970]];
     
     // 是否在选中状态
     if (self.enableSelected && (!self.drawView.selecting || !self.longPressedLinkBlock))
@@ -162,7 +184,13 @@
 {
     if (!self.isLongPressedLink && !self.drawView.selecting)
     {
-        [super touchesEnded:touches withEvent:event];
+        if (([[NSDate date] timeIntervalSince1970] - self.touchTimeInterval) >= 0.0001f)
+        {
+            [super touchesEnded:touches withEvent:event];
+        }
+        else {
+            [super touchesCancelled:touches withEvent:event];
+        }
     }
     
     [self deallocTouches];
@@ -187,16 +215,22 @@
 // 触发长按操作
 - (void)longPressed
 {
-    M80AttributedLabelURL *link = [self valueForKeyPath:@"touchedLink"];
+    TMAttributedLabelLink *link = [self valueForKeyPath:@"activeLink"];
     if (link && !NSEqualRanges(link.range, NSMakeRange(0, self.text.length)))
     {
         [self setIsLongPressedLink:YES];
         
         __weak typeof(self) weakSelf = self;
-        self.longPressedLinkBlock(link.linkData, ^{
-            [weakSelf setValue:nil forKeyPath:@"touchedLink"];
-            [weakSelf setNeedsDisplay];
-        });
+        if (self.longPressedLinkBlock)
+        {
+            self.longPressedLinkBlock(link.linkData, ^{
+                [weakSelf setValue:nil forKeyPath:@"activeLink"];
+                [weakSelf setNeedsDisplay];
+            });
+        } else {
+            [self setValue:nil forKeyPath:@"activeLink"];
+            [self setNeedsDisplay];
+        }
     }
     else
     {

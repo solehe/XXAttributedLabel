@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#import "XXAtributedLabelHeader.h"
+#import "TMAtributedLabelHeader.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

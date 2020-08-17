@@ -23,6 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly) NSRange selecedRange;
 // 放大镜展示监听
 @property (nonatomic, copy) void(^DisplayMagnifyViewBlock)(BOOL display);
+// 选中范围变化监听
+@property (nonatomic, copy, nullable) void(^SelectedRangeChangedBlock)(NSRange range);
 
 @end
 

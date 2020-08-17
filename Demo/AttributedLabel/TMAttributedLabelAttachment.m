@@ -1,12 +1,11 @@
 //
-//  XXAtributedLabelAttachment.m
-//  Demo
+//  TMAtributedLabelAttachment.m
 //
 //  Created by solehe on 2020/8/15.
 //  Copyright © 2020 solehe. All rights reserved.
 //
 
-#import "XXAttributedLabelAttachment.h"
+#import "TMAttributedLabelAttachment.h"
 
 void deallocCallback(void * ref)
 {
@@ -15,15 +14,15 @@ void deallocCallback(void * ref)
 
 CGFloat ascentCallback(void *ref)
 {
-    XXAttributedLabelAttachment *image = (__bridge XXAttributedLabelAttachment *)ref;
+    TMAttributedLabelAttachment *image = (__bridge TMAttributedLabelAttachment *)ref;
     CGFloat ascent = 0;
     CGFloat height = [image boxSize].height;
     switch (image.alignment)
     {
-        case XXAttributedAlignmentTop:
+        case TMAttributedAlignmentTop:
             ascent = image.fontAscent;
             break;
-        case XXAttributedAlignmentCenter:
+        case TMAttributedAlignmentCenter:
         {
             CGFloat fontAscent  = image.fontAscent;
             CGFloat fontDescent = image.fontDescent;
@@ -31,7 +30,7 @@ CGFloat ascentCallback(void *ref)
             ascent = height / 2 + baseLine;
         }
             break;
-        case XXAttributedAlignmentBottom:
+        case TMAttributedAlignmentBottom:
             ascent = height - image.fontDescent;
             break;
         default:
@@ -42,17 +41,17 @@ CGFloat ascentCallback(void *ref)
 
 CGFloat descentCallback(void *ref)
 {
-    XXAttributedLabelAttachment *image = (__bridge XXAttributedLabelAttachment *)ref;
+    TMAttributedLabelAttachment *image = (__bridge TMAttributedLabelAttachment *)ref;
     CGFloat descent = 0;
     CGFloat height = [image boxSize].height;
     switch (image.alignment)
     {
-        case XXAttributedAlignmentTop:
+        case TMAttributedAlignmentTop:
         {
             descent = height - image.fontAscent;
             break;
         }
-        case XXAttributedAlignmentCenter:
+        case TMAttributedAlignmentCenter:
         {
             CGFloat fontAscent  = image.fontAscent;
             CGFloat fontDescent = image.fontDescent;
@@ -60,7 +59,7 @@ CGFloat descentCallback(void *ref)
             descent = height / 2 - baseLine;
         }
             break;
-        case XXAttributedAlignmentBottom:
+        case TMAttributedAlignmentBottom:
         {
             descent = image.fontDescent;
             break;
@@ -75,24 +74,24 @@ CGFloat descentCallback(void *ref)
 
 CGFloat widthCallback(void* ref)
 {
-    XXAttributedLabelAttachment *image  = (__bridge XXAttributedLabelAttachment *)ref;
+    TMAttributedLabelAttachment *image  = (__bridge TMAttributedLabelAttachment *)ref;
     return [image boxSize].width;
 }
 
 
 #pragma mark -
 
-@interface XXAttributedLabelAttachment ()
+@interface TMAttributedLabelAttachment ()
 
 @end
 
-@implementation XXAttributedLabelAttachment
+@implementation TMAttributedLabelAttachment
 
-+ (XXAttributedLabelAttachment *)attachmentWith:(id)content
++ (TMAttributedLabelAttachment *)attachmentWith:(id)content
                                         margin:(UIEdgeInsets)margin
-                                     alignment:(XXAttributedAlignment)alignment
+                                     alignment:(TMAttributedAlignment)alignment
                                        maxSize:(CGSize)maxSize {
-    XXAttributedLabelAttachment *attachment    = [[XXAttributedLabelAttachment alloc]init];
+    TMAttributedLabelAttachment *attachment    = [[TMAttributedLabelAttachment alloc]init];
     attachment.content                          = content;
     attachment.margin                           = margin;
     attachment.alignment                        = alignment;

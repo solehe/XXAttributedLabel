@@ -1,6 +1,5 @@
 //
-//  AttributedLabel.m
-//  Demo
+//  TMAttributedLabel.m
 //
 //  Created by solehe on 2020/8/15.
 //  Copyright © 2020 solehe. All rights reserved.
@@ -10,8 +9,11 @@
 #import <QuartzCore/QuartzCore.h>
 #import <Availability.h>
 
-#import "XXAtributedLabelAttachment.h"
-#import "AttributedLabel.h"
+#import "NSMutableAttributedString+TM.h"
+
+#import "TMAttributedLabelAttachment.h"
+#import "TMAttributedLabelLink.h"
+#import "TMAttributedLabel.h"
 
 #define kXXLineBreakWordWrapTextWidthScalingFactor (M_PI / M_E)
 
@@ -24,33 +26,6 @@ NSString * const kXXBackgroundStrokeColorAttributeName = @"XXBackgroundStrokeCol
 NSString * const kXXBackgroundLineWidthAttributeName = @"XXBackgroundLineWidth";
 NSString * const kXXBackgroundCornerRadiusAttributeName = @"XXBackgroundCornerRadius";
 
-static inline CTTextAlignment CTTextAlignmentFromTTTTextAlignment(NSTextAlignment alignment) {
-    switch (alignment) {
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 90000
-        case NSTextAlignmentLeft: return kCTTextAlignmentLeft;
-        case NSTextAlignmentCenter: return kCTTextAlignmentCenter;
-        case NSTextAlignmentRight: return kCTTextAlignmentRight;
-        default: return kCTTextAlignmentNatural;
-#else
-        case NSTextAlignmentLeft: return kCTLeftTextAlignment;
-        case NSTextAlignmentCenter: return kCTCenterTextAlignment;
-        case NSTextAlignmentRight: return kCTRightTextAlignment;
-        default: return kCTNaturalTextAlignment;
-#endif
-    }
-}
-
-static inline CTLineBreakMode CTLineBreakModeFromTTTLineBreakMode(NSLineBreakMode lineBreakMode) {
-    switch (lineBreakMode) {
-        case NSLineBreakByWordWrapping: return kCTLineBreakByWordWrapping;
-        case NSLineBreakByCharWrapping: return kCTLineBreakByCharWrapping;
-        case NSLineBreakByClipping: return kCTLineBreakByClipping;
-        case NSLineBreakByTruncatingHead: return kCTLineBreakByTruncatingHead;
-        case NSLineBreakByTruncatingTail: return kCTLineBreakByTruncatingTail;
-        case NSLineBreakByTruncatingMiddle: return kCTLineBreakByTruncatingMiddle;
-        default: return 0;
-    }
-}
 
 static inline CGFLOAT_TYPE CGFloat_ceil(CGFLOAT_TYPE cgfloat) {
 #if CGFLOAT_IS_DOUBLE
@@ -96,68 +71,48 @@ static inline CGFloat XXFlushFactorForTextAlignment(NSTextAlignment textAlignmen
     }
 }
 
-static inline NSDictionary * NSAttributedStringAttributesFromLabel(AttributedLabel *label) {
+static inline NSDictionary * NSAttributedStringAttributesFromLabel(TMAttributedLabel *label) {
+    
     NSMutableDictionary *mutableAttributes = [NSMutableDictionary dictionary];
 
-    if ([NSMutableParagraphStyle class]) {
-        [mutableAttributes setObject:label.font forKey:(NSString *)kCTFontAttributeName];
-        [mutableAttributes setObject:label.textColor forKey:(NSString *)kCTForegroundColorAttributeName];
-
-        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-        paragraphStyle.alignment = label.textAlignment;
-        paragraphStyle.lineSpacing = label.lineSpacing;
-        paragraphStyle.minimumLineHeight = label.minimumLineHeight > 0 ? label.minimumLineHeight : label.font.lineHeight * label.lineHeightMultiple;
-        paragraphStyle.maximumLineHeight = label.maximumLineHeight > 0 ? label.maximumLineHeight : label.font.lineHeight * label.lineHeightMultiple;
-        paragraphStyle.lineHeightMultiple = label.lineHeightMultiple;
-
-        if (label.numberOfLines == 1) {
-            paragraphStyle.lineBreakMode = label.lineBreakMode;
-        } else {
-            paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
-        }
-
-        [mutableAttributes setObject:paragraphStyle forKey:(NSString *)kCTParagraphStyleAttributeName];
-    } else {
-        CTFontRef font = CTFontCreateWithName((__bridge CFStringRef)label.font.fontName, label.font.pointSize, NULL);
-        [mutableAttributes setObject:(__bridge id)font forKey:(NSString *)kCTFontAttributeName];
-        CFRelease(font);
-
-        [mutableAttributes setObject:(id)[label.textColor CGColor] forKey:(NSString *)kCTForegroundColorAttributeName];
-
-        CTTextAlignment alignment = CTTextAlignmentFromTTTTextAlignment(label.textAlignment);
-        CGFloat lineSpacing = label.lineSpacing;
-        CGFloat minimumLineHeight = label.minimumLineHeight * label.lineHeightMultiple;
-        CGFloat maximumLineHeight = label.maximumLineHeight * label.lineHeightMultiple;
-        CGFloat lineSpacingAdjustment = CGFloat_ceil(label.font.lineHeight - label.font.ascender + label.font.descender);
-        CGFloat lineHeightMultiple = label.lineHeightMultiple;
-
-        CTLineBreakMode lineBreakMode = kCTLineBreakByWordWrapping;
-        if (label.numberOfLines == 1) {
-            lineBreakMode = CTLineBreakModeFromTTTLineBreakMode(label.lineBreakMode);
-        }
-
-        CTParagraphStyleSetting paragraphStyles[12] = {
-            {.spec = kCTParagraphStyleSpecifierAlignment, .valueSize = sizeof(CTTextAlignment), .value = (const void *)&alignment},
-            {.spec = kCTParagraphStyleSpecifierLineBreakMode, .valueSize = sizeof(CTLineBreakMode), .value = (const void *)&lineBreakMode},
-            {.spec = kCTParagraphStyleSpecifierLineSpacing, .valueSize = sizeof(CGFloat), .value = (const void *)&lineSpacing},
-            {.spec = kCTParagraphStyleSpecifierMinimumLineSpacing, .valueSize = sizeof(CGFloat), .value = (const void *)&minimumLineHeight},
-            {.spec = kCTParagraphStyleSpecifierMaximumLineSpacing, .valueSize = sizeof(CGFloat), .value = (const void *)&maximumLineHeight},
-            {.spec = kCTParagraphStyleSpecifierLineSpacingAdjustment, .valueSize = sizeof (CGFloat), .value = (const void *)&lineSpacingAdjustment},
-            {.spec = kCTParagraphStyleSpecifierLineHeightMultiple, .valueSize = sizeof(CGFloat), .value = (const void *)&lineHeightMultiple},
-        };
-
-        CTParagraphStyleRef paragraphStyle = CTParagraphStyleCreate(paragraphStyles, 12);
-
-        [mutableAttributes setObject:(__bridge id)paragraphStyle forKey:(NSString *)kCTParagraphStyleAttributeName];
-
-        CFRelease(paragraphStyle);
-    }
+    [mutableAttributes setObject:label.font forKey:(NSString *)kCTFontAttributeName];
+    [mutableAttributes setObject:label.textColor forKey:(NSString *)kCTForegroundColorAttributeName];
+    
+    CGFloat multipleLineHeight = label.font.lineHeight * label.lineHeightMultiple;
+    
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineBreakMode = (label.numberOfLines == 1) ? label.lineBreakMode : NSLineBreakByWordWrapping;
+    paragraphStyle.minimumLineHeight = label.minimumLineHeight > 0 ? label.minimumLineHeight : multipleLineHeight;
+    paragraphStyle.maximumLineHeight = label.maximumLineHeight > 0 ? label.maximumLineHeight : multipleLineHeight;
+    paragraphStyle.lineHeightMultiple = label.lineHeightMultiple;
+    paragraphStyle.alignment = label.textAlignment;
+    paragraphStyle.lineSpacing = label.lineSpacing;
+    
+    [mutableAttributes setObject:paragraphStyle forKey:(NSString *)kCTParagraphStyleAttributeName];
 
     return [NSDictionary dictionaryWithDictionary:mutableAttributes];
 }
 
-static inline CGColorRef CGColorRefFromColor(id color);
-static inline NSDictionary * convertNSAttributedStringAttributesToCTAttributes(NSDictionary *attributes);
+static inline NSMutableAttributedString * NSAttributedStringAttributesFromLinks(NSAttributedString *attributedText, NSArray *links) {
+    
+    NSMutableAttributedString *drawString = [attributedText mutableCopy];
+    
+    for (TMAttributedLabelLink *link in links) {
+        
+        if (link.range.location + link.range.length > [drawString length]) {
+            continue;
+        }
+        
+        [drawString xx_setTextColor:[link color] range:link.range];
+        [drawString xx_setUnderlineStyle:kCTUnderlineStyleNone modifier:kCTUnderlinePatternSolid range:link.range];
+    }
+    
+    return drawString;
+}
+
+static inline CGColorRef CGColorRefFromColor(id color) {
+    return [color isKindOfClass:[UIColor class]] ? [color CGColor] : (__bridge CGColorRef)color;
+}
 
 static inline NSAttributedString * NSAttributedStringByScalingFontSize(NSAttributedString *attributedString, CGFloat scale) {
     NSMutableAttributedString *mutableAttributedString = [attributedString mutableCopy];
@@ -188,7 +143,7 @@ static inline NSAttributedString * NSAttributedStringByScalingFontSize(NSAttribu
 static inline NSMutableAttributedString * NSAttributedStringBySettingColorFromContext(NSAttributedString *attributedString, UIColor *color) {
     
     if (!color) {
-        return attributedString;
+        return [attributedString mutableCopy];
     }
 
     NSMutableAttributedString *mutableAttributedString = [attributedString mutableCopy];
@@ -235,16 +190,20 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
 }
 
 
-@interface AttributedLabel ()
+@interface TMAttributedLabel ()
 
-@property (nonatomic, assign)   BOOL                needsFramesetter;
-@property (nonatomic, assign)   CTFramesetterRef    framesetter;
-@property (nonatomic, strong)   NSMutableArray      *attachments;
-@property (nonatomic, copy)     NSMutableAttributedString  *renderedAttributedText;
+@property (nonatomic, assign) BOOL              needsFramesetter;
+@property (nonatomic, assign) CTFrameRef        textFrame;
+@property (nonatomic, assign) CTFramesetterRef  framesetter;
+@property (nonatomic, strong) NSMutableArray    *attachments;
+@property (nonatomic, strong) NSMutableArray    *linkModels;
+@property (nonatomic, strong) TMAttributedLabelLink *activeLink;
+@property (nonatomic, strong) NSMutableAttributedString *renderedAttributedText;
+@property (nonatomic, strong) NSMutableAttributedString *inactiveAttributedText;
 
 @end
 
-@implementation AttributedLabel
+@implementation TMAttributedLabel
 
 @dynamic text;
 @synthesize framesetter = _framesetter;
@@ -272,6 +231,7 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
 
 - (void)commonInit {
     
+    self.linkModels = [NSMutableArray array];
     self.attachments = [NSMutableArray array];
     
     self.textInsets = UIEdgeInsetsZero;
@@ -282,7 +242,207 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
 
 #pragma mark -
 
+// 添加自定义链接，支持传入NSString和XXAtributedLableLink
+- (void)addCustomLink:(id)linkData forRange:(NSRange)range {
+    [self addCustomLink:linkData forRange:range color:self.linkColor];
+}
+
+- (void)addCustomLink:(id)linkData forRange:(NSRange)range color:(UIColor *)color {
+    UIColor *normalColor = !color ? self.textColor : color;
+    UIColor *highlightColor = !self.linkHighlightColor ? self.textColor : self.linkHighlightColor;
+    [_linkModels addObject:[TMAttributedLabelLink urlWithLinkData:linkData range:range
+                                                      normalColor:normalColor
+                                                   highlightColor:highlightColor]];
+    [self setAttributedText:self.attributedText];
+}
+
+- (BOOL)containslinkAtPoint:(CGPoint)point {
+    return [self linkAtPoint:point] != nil;
+}
+
+- (TMAttributedLabelLink *)linkAtPoint:(CGPoint)point {
+    
+    // Stop quickly if none of the points to be tested are in the bounds.
+    if (!CGRectContainsPoint(CGRectInset(self.bounds, -15.f, -15.f), point) || self.linkModels.count == 0) {
+        return nil;
+    }
+    
+    TMAttributedLabelLink *result = [self linkAtCharacterIndex:[self characterIndexAtPoint:point]];
+    
+    if (!result && self.extendsLinkTouchArea) {
+        result = [self linkAtRadius:2.5f aroundPoint:point]
+              ?: [self linkAtRadius:5.f aroundPoint:point]
+              ?: [self linkAtRadius:7.5f aroundPoint:point]
+              ?: [self linkAtRadius:12.5f aroundPoint:point]
+              ?: [self linkAtRadius:15.f aroundPoint:point];
+    }
+    
+    return result;
+}
+
+- (TMAttributedLabelLink *)linkAtRadius:(const CGFloat)radius aroundPoint:(CGPoint)point {
+    const CGFloat diagonal = CGFloat_sqrt(2 * radius * radius);
+    const CGPoint deltas[] = {
+        CGPointMake(0, -radius), CGPointMake(0, radius), // Above and below
+        CGPointMake(-radius, 0), CGPointMake(radius, 0), // Beside
+        CGPointMake(-diagonal, -diagonal), CGPointMake(-diagonal, diagonal),
+        CGPointMake(diagonal, diagonal), CGPointMake(diagonal, -diagonal) // Diagonal
+    };
+    const size_t count = sizeof(deltas) / sizeof(CGPoint);
+    
+    TMAttributedLabelLink *link = nil;
+    
+    for (NSInteger i = 0; i < count && link == nil; i ++) {
+        CGPoint currentPoint = CGPointMake(point.x + deltas[i].x, point.y + deltas[i].y);
+        link = [self linkAtCharacterIndex:[self characterIndexAtPoint:currentPoint]];
+    }
+    
+    return link;
+}
+
+- (TMAttributedLabelLink *)linkAtCharacterIndex:(CFIndex)idx {
+    
+    // Do not enumerate if the index is outside of the bounds of the text.
+    if (!NSLocationInRange((NSUInteger)idx, NSMakeRange(0, self.attributedText.length))) {
+        return nil;
+    }
+    
+    NSEnumerator *enumerator = [self.linkModels reverseObjectEnumerator];
+    TMAttributedLabelLink *link = nil;
+    while ((link = [enumerator nextObject])) {
+        if (NSLocationInRange((NSUInteger)idx, link.range)) {
+            return link;
+        }
+    }
+
+    return nil;
+}
+
+- (CFIndex)characterIndexAtPoint:(CGPoint)p {
+    
+    if (!CGRectContainsPoint(self.bounds, p)) {
+        return NSNotFound;
+    }
+
+    CGRect textRect = [self textRectForBounds:self.bounds limitedToNumberOfLines:self.numberOfLines];
+    if (!CGRectContainsPoint(textRect, p)) {
+        return NSNotFound;
+    }
+
+    // Offset tap coordinates by textRect origin to make them relative to the origin of frame
+    p = CGPointMake(p.x - textRect.origin.x, p.y - textRect.origin.y);
+    // Convert tap coordinates (start at top left) to CT coordinates (start at bottom left)
+    p = CGPointMake(p.x, textRect.size.height - p.y);
+
+    CGMutablePathRef path = CGPathCreateMutable();
+    CGPathAddRect(path, NULL, textRect);
+    CTFrameRef frame = CTFramesetterCreateFrame([self framesetter], CFRangeMake(0, (CFIndex)[self.attributedText length]), path, NULL);
+    if (frame == NULL) {
+        CGPathRelease(path);
+        return NSNotFound;
+    }
+
+    CFArrayRef lines = CTFrameGetLines(frame);
+    NSInteger numberOfLines = self.numberOfLines > 0 ? MIN(self.numberOfLines, CFArrayGetCount(lines)) : CFArrayGetCount(lines);
+    if (numberOfLines == 0) {
+        CFRelease(frame);
+        CGPathRelease(path);
+        return NSNotFound;
+    }
+
+    CFIndex idx = NSNotFound;
+
+    CGPoint lineOrigins[numberOfLines];
+    CTFrameGetLineOrigins(frame, CFRangeMake(0, numberOfLines), lineOrigins);
+
+    for (CFIndex lineIndex = 0; lineIndex < numberOfLines; lineIndex++) {
+        CGPoint lineOrigin = lineOrigins[lineIndex];
+        CTLineRef line = CFArrayGetValueAtIndex(lines, lineIndex);
+
+        // Get bounding information of line
+        CGFloat ascent = 0.0f, descent = 0.0f, leading = 0.0f;
+        CGFloat width = (CGFloat)CTLineGetTypographicBounds(line, &ascent, &descent, &leading);
+        CGFloat yMin = (CGFloat)floor(lineOrigin.y - descent);
+        CGFloat yMax = (CGFloat)ceil(lineOrigin.y + ascent);
+
+        // Apply penOffset using flushFactor for horizontal alignment to set lineOrigin since this is the horizontal offset from drawFramesetter
+        CGFloat flushFactor = XXFlushFactorForTextAlignment(self.textAlignment);
+        CGFloat penOffset = (CGFloat)CTLineGetPenOffsetForFlush(line, flushFactor, textRect.size.width);
+        lineOrigin.x = penOffset;
+
+        // Check if we've already passed the line
+        if (p.y > yMax) {
+            break;
+        }
+        // Check if the point is within this line vertically
+        if (p.y >= yMin) {
+            // Check if the point is within this line horizontally
+            if (p.x >= lineOrigin.x && p.x <= lineOrigin.x + width) {
+                // Convert CT coordinates to line-relative coordinates
+                CGPoint relativePoint = CGPointMake(p.x - lineOrigin.x, p.y - lineOrigin.y);
+                idx = CTLineGetStringIndexForPosition(line, relativePoint);
+                break;
+            }
+        }
+    }
+
+    CFRelease(frame);
+    CGPathRelease(path);
+
+    return idx;
+}
+
+- (id)linkDataForPoint:(CGPoint)point {
+    TMAttributedLabelLink *url = [self linkAtPoint:point];
+    return url ? url.linkData : nil;
+}
+
+#pragma mark -
+
+- (void)setActiveLink:(TMAttributedLabelLink *)activeLink {
+    
+    if (_activeLink) {
+        [_activeLink setSelected:NO];
+    }
+    
+    _activeLink = activeLink;
+    _activeLink.selected = YES;
+    
+    UIColor *highLightColor = !self.linkHighlightColor ? activeLink.color : self.linkHighlightColor;
+    highLightColor = !highLightColor ? self.textColor : highLightColor;
+    NSDictionary *activeAttributes = @{NSForegroundColorAttributeName : [UIColor yellowColor]};
+
+    if (_activeLink && activeAttributes.count > 0) {
+        
+        if (!self.inactiveAttributedText) {
+            self.inactiveAttributedText = [self.attributedText copy];
+        }
+
+        NSMutableAttributedString *mutableAttributedString = [self.inactiveAttributedText mutableCopy];
+        NSUInteger loc = NSMaxRange(self.activeLink.range) - 1;
+        NSRange range = NSMakeRange(0, [self.inactiveAttributedText length]);
+        if (self.activeLink.range.length > 0 && NSLocationInRange(loc, range)) {
+            [mutableAttributedString addAttributes:activeAttributes range:self.activeLink.range];
+        }
+
+        self.attributedText = mutableAttributedString;
+        [self setNeedsDisplay];
+
+        [CATransaction flush];
+        
+    } else if (self.inactiveAttributedText) {
+        
+        self.attributedText = self.inactiveAttributedText;
+        self.inactiveAttributedText = nil;
+
+        [self setNeedsDisplay];
+    }
+}
+
+#pragma mark -
+
 - (void)setText:(id)text {
+    text = !text ? @"" : text;
     if ([text isKindOfClass:[NSString class]]) {
         [self setAttributedText:[[NSMutableAttributedString alloc] initWithString:text attributes:NSAttributedStringAttributesFromLabel(self)]];
     } else if ([text isKindOfClass:[NSAttributedString class]]) {
@@ -296,12 +456,12 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
 }
 
 - (void)setAttributedText:(NSAttributedString *)attributedText {
-    
-    if ([attributedText isEqualToAttributedString:_attributedText]) {
-        return;
-    }
 
-    _attributedText = [attributedText copy];
+    if (self.attributedText.length <= 0) {
+        [self.linkModels removeAllObjects];
+    }
+    
+    _attributedText = [NSAttributedStringAttributesFromLinks(attributedText, _linkModels) copy];
 
     [self setNeedsFramesetter];
     [self setNeedsDisplay];
@@ -314,16 +474,42 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
 }
 
 // 增加文本，支持传入NSString、NSAttributedString、UIImage和UIView
-- (void)append:(id)obj alignment:(XXAttributedAlignment)alignment {
-    CGSize size = [obj isKindOfClass:[UIImage class]] ? ((UIImage *)obj).size : CGSizeZero;
-    XXAttributedLabelAttachment *attachment = [XXAttributedLabelAttachment attachmentWith:obj
-                                                                                   margin:UIEdgeInsetsZero
-                                                                                alignment:alignment
-                                                                                  maxSize:size];
-    [self appendAttachment:attachment];
+- (void)append:(id)obj alignment:(TMAttributedAlignment)alignment {
+    
+    if ([obj isKindOfClass:[UIImage class]] || [obj isKindOfClass:[UIView class]]) {
+        
+        CGSize size = [obj isKindOfClass:[UIImage class]] ? ((UIImage *)obj).size : CGSizeZero;
+        TMAttributedLabelAttachment *attachment = [TMAttributedLabelAttachment attachmentWith:obj
+                                                                                       margin:UIEdgeInsetsZero
+                                                                                    alignment:alignment
+                                                                                      maxSize:size];
+        [self appendAttachment:attachment];
+        
+    } else if ([obj isKindOfClass:[NSString class]] || [obj isKindOfClass:[NSAttributedString class]]) {
+    
+        NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithAttributedString:self.attributedText];
+        
+        if ([obj isKindOfClass:[NSString class]]) {
+            
+            NSDictionary *attributes = NSAttributedStringAttributesFromLabel(self);
+            [attributedText appendAttributedString:[[NSMutableAttributedString alloc] initWithString:obj attributes:attributes]];
+            
+        } else if ([obj isKindOfClass:[NSAttributedString class]]) {
+            
+            NSMutableAttributedString *mutableAttributedString = [[NSMutableAttributedString alloc] initWithAttributedString:obj];
+            NSRange range = NSMakeRange(0, [mutableAttributedString length]);
+            [mutableAttributedString addAttributes:NSAttributedStringAttributesFromLabel(self) range:range];
+            [attributedText appendAttributedString:mutableAttributedString];
+        }
+        
+        [self setAttributedText:attributedText];
+        
+    } else {
+        NSLog(@"【AttributedLabel】不支持的类型");
+    }
 }
 
-- (void)appendAttachment:(XXAttributedLabelAttachment *)attachment {
+- (void)appendAttachment:(TMAttributedLabelAttachment *)attachment {
     
     attachment.fontAscent                   = self.font.ascender;
     attachment.fontDescent                  = self.font.descender;
@@ -347,8 +533,7 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
     [self appendAttributedText:attachText];
 }
 
-- (void)appendAttributedText:(NSAttributedString *)attributedText
-{
+- (void)appendAttributedText:(NSAttributedString *)attributedText {
     NSMutableAttributedString *mutableAttributedText = [[NSMutableAttributedString alloc] initWithAttributedString:self.attributedText];
     [mutableAttributedText appendAttributedString:attributedText];
     [self setAttributedText:[mutableAttributedText copy]];
@@ -356,7 +541,7 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
 
 // 默认竖直方向居中对齐
 - (void)append:(id)obj {
-    [self append:obj alignment:XXAttributedAlignmentCenter];
+    [self append:obj alignment:TMAttributedAlignmentCenter];
 }
 
 #pragma mark -
@@ -393,6 +578,19 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
     }
 
     _framesetter = framesetter;
+}
+
+- (void)setTextFrame:(CTFrameRef)textFrame {
+    
+    if (textFrame) {
+        CFRetain(textFrame);
+    }
+
+    if (_textFrame) {
+        CFRelease(_textFrame);
+    }
+
+    _textFrame = textFrame;
 }
 
 - (NSAttributedString *)renderedAttributedText {
@@ -447,13 +645,13 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
     if (textSize.height < bounds.size.height) {
         CGFloat yOffset = 0.0f;
         switch (self.verticalAlignment) {
-            case XXAttributedAlignmentCenter:
+            case TMAttributedAlignmentCenter:
                 yOffset = CGFloat_floor((bounds.size.height - textSize.height) / 2.0f);
                 break;
-            case XXAttributedAlignmentBottom:
+            case TMAttributedAlignmentBottom:
                 yOffset = bounds.size.height - textSize.height;
                 break;
-            case XXAttributedAlignmentTop:
+            case TMAttributedAlignmentTop:
             default:
                 break;
         }
@@ -549,6 +747,8 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
     CGPathAddRect(path, NULL, rect);
     CTFrameRef frame = CTFramesetterCreateFrame(framesetter, textRange, path, NULL);
     
+    [self setTextFrame:frame];;
+    
     [self drawBackground:frame inRect:rect context:c];
     
     [self drawAttachments:frame inRect:rect context:c];
@@ -641,19 +841,20 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
 
                 CTLineDraw(truncatedLine, c);
                 
-                /*
+                
                 NSRange linkRange;
                 if ([attributedTruncationString attribute:NSLinkAttributeName atIndex:0 effectiveRange:&linkRange]) {
                     NSRange tokenRange = [truncationString.string rangeOfString:attributedTruncationString.string];
-                    NSRange tokenLinkRange = NSMakeRange((NSUInteger)(lastLineRange.location+lastLineRange.length)-tokenRange.length, (NSUInteger)tokenRange.length);
+                    NSUInteger loc = lastLineRange.location + lastLineRange.length;
+                    NSRange tokenLinkRange = NSMakeRange(loc - tokenRange.length, tokenRange.length);
                     
-                    [self addLinkToURL:[attributedTruncationString attribute:NSLinkAttributeName atIndex:0 effectiveRange:&linkRange] withRange:tokenLinkRange];
+                    [self addCustomLink:[attributedTruncationString string] forRange:tokenLinkRange];
                 }
-                 */
 
                 CFRelease(truncatedLine);
                 CFRelease(truncationLine);
                 CFRelease(truncationToken);
+                
             } else {
                 CGFloat penOffset = (CGFloat)CTLineGetPenOffsetForFlush(line, flushFactor, rect.size.width);
                 CGContextSetTextPosition(c, penOffset, lineOrigin.y - descent - self.font.descender);
@@ -703,7 +904,7 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
             {
                 continue;
             }
-            XXAttributedLabelAttachment* attributedImage = (XXAttributedLabelAttachment *)CTRunDelegateGetRefCon(delegate);
+            TMAttributedLabelAttachment* attributedImage = (TMAttributedLabelAttachment *)CTRunDelegateGetRefCon(delegate);
             
             CGFloat ascent = 0.0f;
             CGFloat descent = 0.0f;
@@ -719,13 +920,13 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
             CGFloat imageBoxOriginY = 0.0f;
             switch (attributedImage.alignment)
             {
-                case XXAttributedAlignmentTop:
+                case TMAttributedAlignmentTop:
                     imageBoxOriginY = lineBottomY + (lineHeight - imageBoxHeight);
                     break;
-                case XXAttributedAlignmentCenter:
+                case TMAttributedAlignmentCenter:
                     imageBoxOriginY = lineBottomY + (lineHeight - imageBoxHeight) / 2.0;
                     break;
-                case XXAttributedAlignmentBottom:
+                case TMAttributedAlignmentBottom:
                     imageBoxOriginY = lineBottomY;
                     break;
             }
@@ -934,50 +1135,108 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
     }
 }
 
+#pragma mark - 点击事件相应
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if (self.activeLink == nil)
+    {
+        UITouch *touch = [touches anyObject];
+        CGPoint point = [touch locationInView:self];
+        self.activeLink =  [self linkAtPoint:point];
+    }
+    
+    if (self.activeLink)
+    {
+          [self setNeedsDisplay];
+    }
+    else
+    {
+        [super touchesBegan:touches withEvent:event];
+    }
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [super touchesMoved:touches withEvent:event];
+    UITouch *touch = [touches anyObject];
+    CGPoint point = [touch locationInView:self];
+    
+    TMAttributedLabelLink *touchedLink = [self linkAtPoint:point];
+    if (self.activeLink != touchedLink)
+    {
+        self.activeLink = touchedLink;
+        [self setNeedsDisplay];
+    }
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [super touchesCancelled:touches withEvent:event];
+    if (self.activeLink)
+    {
+        self.activeLink = nil;
+        [self setNeedsDisplay];
+    }
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch *touch = [touches anyObject];
+    CGPoint point = [touch locationInView:self];
+    if(![self onLabelClick:point])
+    {
+        [super touchesEnded:touches withEvent:event];
+    }
+    if (self.activeLink)
+    {
+        self.activeLink = nil;
+        [self setNeedsDisplay];
+    }
+}
+
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
+{
+    TMAttributedLabelLink *touchedLink = [self linkAtPoint:point];
+    if (touchedLink == nil)
+    {
+        NSArray *subViews = [self subviews];
+        for (UIView *view in subViews)
+        {
+            CGPoint hitPoint = [view convertPoint:point
+                                         fromView:self];
+            
+            UIView *hitTestView = [view hitTest:hitPoint
+                                      withEvent:event];
+            if (hitTestView)
+            {
+                return hitTestView;
+            }
+        }
+        return nil;
+    }
+    else
+    {
+        return self;
+    }
+}
+
+- (BOOL)onLabelClick:(CGPoint)point
+{
+    id linkData = [self linkDataForPoint:point];
+    if (linkData)
+    {
+        if (_delegate && [_delegate respondsToSelector:@selector(attributedLabel:clickedOnLink:)])
+        {
+            [_delegate attributedLabel:self clickedOnLink:linkData];
+        }
+
+        return YES;
+    }
+    
+    return NO;
+}
+
 @end
 
 
-#pragma mark -
 
-static inline CGColorRef CGColorRefFromColor(id color) {
-    return [color isKindOfClass:[UIColor class]] ? [color CGColor] : (__bridge CGColorRef)color;
-}
-
-static inline CTFontRef CTFontRefFromUIFont(UIFont * font) {
-    CTFontRef ctfont = CTFontCreateWithName((__bridge CFStringRef)font.fontName, font.pointSize, NULL);
-    return CFAutorelease(ctfont);
-}
-
-static inline NSDictionary * convertNSAttributedStringAttributesToCTAttributes(NSDictionary *attributes) {
-    if (!attributes) return nil;
-    
-    NSMutableDictionary *mutableAttributes = [NSMutableDictionary dictionary];
-    
-    NSDictionary *NSToCTAttributeNamesMap = @{
-        NSFontAttributeName:            (NSString *)kCTFontAttributeName,
-        NSBackgroundColorAttributeName: (NSString *)kXXBackgroundFillColorAttributeName,
-        NSForegroundColorAttributeName: (NSString *)kCTForegroundColorAttributeName,
-        NSUnderlineColorAttributeName:  (NSString *)kCTUnderlineColorAttributeName,
-        NSUnderlineStyleAttributeName:  (NSString *)kCTUnderlineStyleAttributeName,
-        NSStrokeWidthAttributeName:     (NSString *)kCTStrokeWidthAttributeName,
-        NSStrokeColorAttributeName:     (NSString *)kCTStrokeWidthAttributeName,
-        NSKernAttributeName:            (NSString *)kCTKernAttributeName,
-        NSLigatureAttributeName:        (NSString *)kCTLigatureAttributeName
-    };
-    
-    [attributes enumerateKeysAndObjectsUsingBlock:^(id key, id value, BOOL *stop) {
-        key = [NSToCTAttributeNamesMap objectForKey:key] ? : key;
-        
-        if (![NSMutableParagraphStyle class]) {
-            if ([value isKindOfClass:[UIFont class]]) {
-                value = (__bridge id)CTFontRefFromUIFont(value);
-            } else if ([value isKindOfClass:[UIColor class]]) {
-                value = (__bridge id)((UIColor *)value).CGColor;
-            }
-        }
-        
-        [mutableAttributes setObject:value forKey:key];
-    }];
-    
-    return [NSDictionary dictionaryWithDictionary:mutableAttributes];
-}
