@@ -165,9 +165,6 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
 
 - (void)drawRect:(CGRect)rect {
     
-    // First, get the text rect (which takes vertical centering into account)
-    CGRect textRect = [self.label textRectForBounds:rect limitedToNumberOfLines:self.label.numberOfLines];
-    
     // 处于选择状态
     if (self.selecting && self.startAtLine <= self.endAtLine)
     {
@@ -183,8 +180,14 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
         // 开始绘制
         if (self.startAtIndex < self.endAtIndex || self.startAtLine < self.endAtLine)
         {
+            // First, get the text rect (which takes vertical centering into account)
+            CGRect textRect = [self.label textRectForBounds:self.label.bounds limitedToNumberOfLines:self.label.numberOfLines];
+            
+            // 计算竖直方向上的偏移量
+            CGFloat offsetY = textRect.origin.y;
+            
             // 竖直方向上的开始坐标
-            CGFloat yOffset = self.edgeInsets.top + textRect.origin.y;
+            CGFloat yOffset = self.edgeInsets.top + offsetY;
             
             // 左右方向上的开始坐标
             CGFloat xOffset = self.edgeInsets.left + textRect.origin.x;
@@ -201,9 +204,15 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
                 // 获取行高和y坐标开始位置
                 CGFloat lineHeight = (ascent + descent + self.label.lineSpacing);
                 
+                // 最后一行适当增加行高以覆盖全部内容
+                if (i == self.endAtLine) {
+                    lineHeight += (lineHeight / 5.f);
+                }
+                
                 // 绘制
                 if (i >= self.startAtLine) {
-                    [self drawContext:context line:line index:i xOffset:xOffset yOffset:yOffset lineHeight:lineHeight];
+                    CGFloat lineOffsetX = [self getXOffset:line] + xOffset;
+                    [self drawContext:context line:line index:i xOffset:lineOffsetX yOffset:yOffset lineHeight:lineHeight];
                 }
                 
                 // 更新下一行起点位置
@@ -354,6 +363,9 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
     // First, get the text rect (which takes vertical centering into account)
     CGRect textRect = [self.label textRectForBounds:self.label.bounds limitedToNumberOfLines:self.label.numberOfLines];
     
+    // This need to adjsut point
+    point = CGPointMake(point.x - textRect.origin.x, point.y);
+    
     CFArrayRef lines = CTFrameGetLines(self.label.textFrameRef);
     CFIndex numberOfLines = CFArrayGetCount(lines);
     
@@ -399,6 +411,9 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
         begainIndex = charIndex;
         *stop = YES;
     });
+    
+    // 获取调整后的坐标
+    point = CGPointMake(point.x - [self getXOffset:line], point.y);
     
     CFIndex position = CTLineGetStringIndexForPosition(line, point) - begainIndex;
     
@@ -535,11 +550,31 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
     return 0;
 }
 
+// 获取制定行在X轴对应的偏移量
+- (CGFloat)getXOffset:(CTLineRef)line
+{
+    CGFloat flushFactor = 0.0;
+
+    if (self.label.textAlignment == NSTextAlignmentCenter)
+    {
+        flushFactor = 0.5;
+    }
+    else if (self.label.textAlignment == NSTextAlignmentRight)
+    {
+        flushFactor = 1.0;
+    }
+
+    CGFloat edgeInsetsW = self.edgeInsets.left + self.edgeInsets.right;
+    CGFloat textInsetsW = self.label.textInsets.left + self.label.textInsets.right;
+    CGFloat width = CGRectGetWidth(self.bounds) - edgeInsetsW - textInsetsW;
+    return CTLineGetPenOffsetForFlush(line, flushFactor, width);
+}
+
 #pragma mark -
 
 // 展示选中视图
-- (void)show {
-    
+- (void)show
+{
     // 重置选中状态
     [self.label setSelecting:YES];
     
@@ -566,8 +601,8 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
 }
 
 // 隐藏选中视图
-- (void)hidden {
-    
+- (void)hidden
+{    
     // 重置选中状态
     [self.label setSelecting:NO];
     
