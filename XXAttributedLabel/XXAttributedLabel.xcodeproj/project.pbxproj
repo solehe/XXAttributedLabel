@@ -7,30 +7,30 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		522BDB8A24EB8A0D0079B599 /* TMAttributedLabel+XX.m in Sources */ = {isa = PBXBuildFile; fileRef = 522BDB8824EB8A0D0079B599 /* TMAttributedLabel+XX.m */; };
+		522BDB8B24EB8A0D0079B599 /* TMAttributedLabel+XX.h in Headers */ = {isa = PBXBuildFile; fileRef = 522BDB8924EB8A0D0079B599 /* TMAttributedLabel+XX.h */; };
 		52485091240FA0A800078A66 /* XXAttributedLabelTouchView.h in Headers */ = {isa = PBXBuildFile; fileRef = 52485085240FA0A800078A66 /* XXAttributedLabelTouchView.h */; };
 		52485092240FA0A800078A66 /* XXAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 52485086240FA0A800078A66 /* XXAttributedLabel.m */; };
 		52485094240FA0A800078A66 /* XXAttributedLabelMagnifyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 52485088240FA0A800078A66 /* XXAttributedLabelMagnifyView.m */; };
 		52485095240FA0A800078A66 /* XXAttributedLabelDrawView.h in Headers */ = {isa = PBXBuildFile; fileRef = 52485089240FA0A800078A66 /* XXAttributedLabelDrawView.h */; };
-		52485096240FA0A800078A66 /* M80AttributedLabel+M80.h in Headers */ = {isa = PBXBuildFile; fileRef = 5248508A240FA0A800078A66 /* M80AttributedLabel+M80.h */; };
 		52485097240FA0A800078A66 /* XXAttributedLabelTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5248508B240FA0A800078A66 /* XXAttributedLabelTouchView.m */; };
 		52485098240FA0A800078A66 /* XXAttributedLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5248508C240FA0A800078A66 /* XXAttributedLabel.h */; };
 		52485099240FA0A800078A66 /* XXAttributedLabelMagnifyView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5248508D240FA0A800078A66 /* XXAttributedLabelMagnifyView.h */; };
-		5248509B240FA0A800078A66 /* M80AttributedLabel+M80.m in Sources */ = {isa = PBXBuildFile; fileRef = 5248508F240FA0A800078A66 /* M80AttributedLabel+M80.m */; };
 		5248509C240FA0A800078A66 /* XXAttributedLabelDrawView.m in Sources */ = {isa = PBXBuildFile; fileRef = 52485090240FA0A800078A66 /* XXAttributedLabelDrawView.m */; };
 		85033A09240D61EC0029A56B /* XXAttributedLabel-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = 85033A07240D61EC0029A56B /* XXAttributedLabel-Header.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8FD0723CC9E19DB932CDDDFA /* Pods_XXAttributedLabel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4A3DB2BFEE5474D1F6853DE /* Pods_XXAttributedLabel.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		522BDB8824EB8A0D0079B599 /* TMAttributedLabel+XX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TMAttributedLabel+XX.m"; sourceTree = "<group>"; };
+		522BDB8924EB8A0D0079B599 /* TMAttributedLabel+XX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TMAttributedLabel+XX.h"; sourceTree = "<group>"; };
 		52485085240FA0A800078A66 /* XXAttributedLabelTouchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXAttributedLabelTouchView.h; sourceTree = "<group>"; };
 		52485086240FA0A800078A66 /* XXAttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXAttributedLabel.m; sourceTree = "<group>"; };
 		52485088240FA0A800078A66 /* XXAttributedLabelMagnifyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXAttributedLabelMagnifyView.m; sourceTree = "<group>"; };
 		52485089240FA0A800078A66 /* XXAttributedLabelDrawView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXAttributedLabelDrawView.h; sourceTree = "<group>"; };
-		5248508A240FA0A800078A66 /* M80AttributedLabel+M80.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "M80AttributedLabel+M80.h"; sourceTree = "<group>"; };
 		5248508B240FA0A800078A66 /* XXAttributedLabelTouchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXAttributedLabelTouchView.m; sourceTree = "<group>"; };
 		5248508C240FA0A800078A66 /* XXAttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXAttributedLabel.h; sourceTree = "<group>"; };
 		5248508D240FA0A800078A66 /* XXAttributedLabelMagnifyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXAttributedLabelMagnifyView.h; sourceTree = "<group>"; };
-		5248508F240FA0A800078A66 /* M80AttributedLabel+M80.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "M80AttributedLabel+M80.m"; sourceTree = "<group>"; };
 		52485090240FA0A800078A66 /* XXAttributedLabelDrawView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXAttributedLabelDrawView.m; sourceTree = "<group>"; };
 		85033A04240D61EC0029A56B /* XXAttributedLabel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = XXAttributedLabel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		85033A07240D61EC0029A56B /* XXAttributedLabel-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XXAttributedLabel-Header.h"; sourceTree = "<group>"; };
@@ -55,8 +55,8 @@
 		52485084240FA0A800078A66 /* XXAttributedLabel */ = {
 			isa = PBXGroup;
 			children = (
-				5248508A240FA0A800078A66 /* M80AttributedLabel+M80.h */,
-				5248508F240FA0A800078A66 /* M80AttributedLabel+M80.m */,
+				522BDB8924EB8A0D0079B599 /* TMAttributedLabel+XX.h */,
+				522BDB8824EB8A0D0079B599 /* TMAttributedLabel+XX.m */,
 				5248508C240FA0A800078A66 /* XXAttributedLabel.h */,
 				52485086240FA0A800078A66 /* XXAttributedLabel.m */,
 				5248508D240FA0A800078A66 /* XXAttributedLabelMagnifyView.h */,
@@ -125,8 +125,8 @@
 				52485095240FA0A800078A66 /* XXAttributedLabelDrawView.h in Headers */,
 				85033A09240D61EC0029A56B /* XXAttributedLabel-Header.h in Headers */,
 				52485098240FA0A800078A66 /* XXAttributedLabel.h in Headers */,
+				522BDB8B24EB8A0D0079B599 /* TMAttributedLabel+XX.h in Headers */,
 				52485099240FA0A800078A66 /* XXAttributedLabelMagnifyView.h in Headers */,
-				52485096240FA0A800078A66 /* M80AttributedLabel+M80.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -224,10 +224,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				522BDB8A24EB8A0D0079B599 /* TMAttributedLabel+XX.m in Sources */,
 				52485092240FA0A800078A66 /* XXAttributedLabel.m in Sources */,
 				5248509C240FA0A800078A66 /* XXAttributedLabelDrawView.m in Sources */,
 				52485097240FA0A800078A66 /* XXAttributedLabelTouchView.m in Sources */,
-				5248509B240FA0A800078A66 /* M80AttributedLabel+M80.m in Sources */,
 				52485094240FA0A800078A66 /* XXAttributedLabelMagnifyView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

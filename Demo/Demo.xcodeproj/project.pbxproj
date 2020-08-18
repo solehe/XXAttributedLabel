@@ -70,7 +70,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5222FE9924E77BFC00E7A350 /* AttributedLabel */ = {
+		5222FE9924E77BFC00E7A350 /* TMAttributedLabel */ = {
 			isa = PBXGroup;
 			children = (
 				5222FE7424E774BD00E7A350 /* TMAttributedLabel.h */,
@@ -83,7 +83,7 @@
 				522BDB6424EA5AE50079B599 /* NSMutableAttributedString+TM.m */,
 				522BDB6224E7B2560079B599 /* TMAtributedLabelHeader.h */,
 			);
-			path = AttributedLabel;
+			path = TMAttributedLabel;
 			sourceTree = "<group>";
 		};
 		522BDB6624EA84080079B599 /* XXAttributedLabel */ = {
@@ -107,7 +107,7 @@
 		85817D642419222900A42032 = {
 			isa = PBXGroup;
 			children = (
-				5222FE9924E77BFC00E7A350 /* AttributedLabel */,
+				5222FE9924E77BFC00E7A350 /* TMAttributedLabel */,
 				522BDB6624EA84080079B599 /* XXAttributedLabel */,
 				85817D6F2419222900A42032 /* Demo */,
 				85817D6E2419222900A42032 /* Products */,
