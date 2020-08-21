@@ -2,14 +2,14 @@ XXAttributedLabel
 ==================
 
 
-基于<a href="https://github.com/TMAttributedLabel">TMAttributedLabel</a>实现，让Label也可支持select、copy等操作。
+基于<a href="https://github.com/solehe/TMAttributedLabel">TMAttributedLabel</a>实现，让Label也可支持select、copy等操作。
 
 
 <img src="./Images/select.png" width="320">
 
 
 # 特性
-* 支持<a href="https://github.com/TMAttributedLabel">TMAttributedLabel</a>的所有特性
+* 支持<a href="https://github.com/solehe/TMAttributedLabel">TMAttributedLabel</a>的所有特性
 * 支持select相关属性
    * `触发时长`
    * `状态` 
