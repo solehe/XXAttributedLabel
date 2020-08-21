@@ -1,0 +1,23 @@
+PODS:
+  - TMAttributedLabel (0.0.1)
+  - XXAttributedLabel (0.1.1):
+    - TMAttributedLabel (~> 0.0.1)
+
+DEPENDENCIES:
+  - XXAttributedLabel (from `../`)
+
+SPEC REPOS:
+  trunk:
+    - TMAttributedLabel
+
+EXTERNAL SOURCES:
+  XXAttributedLabel:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  TMAttributedLabel: 06bff2e5077d31e623b6f5d6f71bf4d79b541d7d
+  XXAttributedLabel: 8514295296588e6d6b18cf20bb1abeac4df34b9d
+
+PODFILE CHECKSUM: 4fa0447761779bfc8c92d1aeecb2c32b973676a5
+
+COCOAPODS: 1.9.3

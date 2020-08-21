@@ -1,0 +1,3 @@
+${PODS_ROOT}/Target Support Files/Pods-Demo/Pods-Demo-frameworks.sh
+${BUILT_PRODUCTS_DIR}/TMAttributedLabel/TMAttributedLabel.framework
+${BUILT_PRODUCTS_DIR}/XXAttributedLabel/XXAttributedLabel.framework

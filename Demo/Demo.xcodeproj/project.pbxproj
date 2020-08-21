@@ -3,19 +3,10 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5222FE7624E774BD00E7A350 /* TMAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5222FE7524E774BD00E7A350 /* TMAttributedLabel.m */; };
-		5222FE9C24E7801200E7A350 /* TMAttributedLabelLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 5222FE9B24E7801200E7A350 /* TMAttributedLabelLink.m */; };
-		522BDB6124E7B1CF0079B599 /* TMAttributedLabelAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 522BDB6024E7B1CF0079B599 /* TMAttributedLabelAttachment.m */; };
-		522BDB6524EA5AE50079B599 /* NSMutableAttributedString+TM.m in Sources */ = {isa = PBXBuildFile; fileRef = 522BDB6424EA5AE50079B599 /* NSMutableAttributedString+TM.m */; };
-		522BDB7B24EA87FB0079B599 /* TMAttributedLabel+XX.m in Sources */ = {isa = PBXBuildFile; fileRef = 522BDB7924EA87FB0079B599 /* TMAttributedLabel+XX.m */; };
-		522BDB8424EA8B820079B599 /* XXAttributedLabelDrawView.m in Sources */ = {isa = PBXBuildFile; fileRef = 522BDB8024EA8B820079B599 /* XXAttributedLabelDrawView.m */; };
-		522BDB8524EA8B820079B599 /* XXAttributedLabelTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 522BDB8124EA8B820079B599 /* XXAttributedLabelTouchView.m */; };
-		522BDB8624EA8B820079B599 /* XXAttributedLabelMagnifyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 522BDB8224EA8B820079B599 /* XXAttributedLabelMagnifyView.m */; };
-		522BDB8724EA8B820079B599 /* XXAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 522BDB8324EA8B820079B599 /* XXAttributedLabel.m */; };
 		85817D722419222900A42032 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 85817D712419222900A42032 /* AppDelegate.m */; };
 		85817D782419222900A42032 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 85817D772419222900A42032 /* ViewController.m */; };
 		85817D7B2419222900A42032 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85817D792419222900A42032 /* Main.storyboard */; };
@@ -23,28 +14,11 @@
 		85817D802419222A00A42032 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85817D7E2419222A00A42032 /* LaunchScreen.storyboard */; };
 		85817D832419222A00A42032 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 85817D822419222A00A42032 /* main.m */; };
 		85817E0D2419231200A42032 /* TouchTestView.m in Sources */ = {isa = PBXBuildFile; fileRef = 85817E0B2419231100A42032 /* TouchTestView.m */; };
+		A0A48B19309ED72B5F645DF3 /* Pods_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 056DAE441ACC711865E26A47 /* Pods_Demo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5222FE7424E774BD00E7A350 /* TMAttributedLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TMAttributedLabel.h; sourceTree = "<group>"; };
-		5222FE7524E774BD00E7A350 /* TMAttributedLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TMAttributedLabel.m; sourceTree = "<group>"; };
-		5222FE9A24E7801200E7A350 /* TMAttributedLabelLink.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TMAttributedLabelLink.h; sourceTree = "<group>"; };
-		5222FE9B24E7801200E7A350 /* TMAttributedLabelLink.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TMAttributedLabelLink.m; sourceTree = "<group>"; };
-		522BDB5F24E7B1CF0079B599 /* TMAttributedLabelAttachment.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TMAttributedLabelAttachment.h; sourceTree = "<group>"; };
-		522BDB6024E7B1CF0079B599 /* TMAttributedLabelAttachment.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TMAttributedLabelAttachment.m; sourceTree = "<group>"; };
-		522BDB6224E7B2560079B599 /* TMAtributedLabelHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TMAtributedLabelHeader.h; sourceTree = "<group>"; };
-		522BDB6324EA5AE50079B599 /* NSMutableAttributedString+TM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSMutableAttributedString+TM.h"; sourceTree = "<group>"; };
-		522BDB6424EA5AE50079B599 /* NSMutableAttributedString+TM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSMutableAttributedString+TM.m"; sourceTree = "<group>"; };
-		522BDB7924EA87FB0079B599 /* TMAttributedLabel+XX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TMAttributedLabel+XX.m"; sourceTree = "<group>"; };
-		522BDB7A24EA87FB0079B599 /* TMAttributedLabel+XX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TMAttributedLabel+XX.h"; sourceTree = "<group>"; };
-		522BDB7C24EA8B820079B599 /* XXAttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXAttributedLabel.h; sourceTree = "<group>"; };
-		522BDB7D24EA8B820079B599 /* XXAttributedLabelMagnifyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXAttributedLabelMagnifyView.h; sourceTree = "<group>"; };
-		522BDB7E24EA8B820079B599 /* XXAttributedLabelTouchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXAttributedLabelTouchView.h; sourceTree = "<group>"; };
-		522BDB7F24EA8B820079B599 /* XXAttributedLabelDrawView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXAttributedLabelDrawView.h; sourceTree = "<group>"; };
-		522BDB8024EA8B820079B599 /* XXAttributedLabelDrawView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXAttributedLabelDrawView.m; sourceTree = "<group>"; };
-		522BDB8124EA8B820079B599 /* XXAttributedLabelTouchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXAttributedLabelTouchView.m; sourceTree = "<group>"; };
-		522BDB8224EA8B820079B599 /* XXAttributedLabelMagnifyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXAttributedLabelMagnifyView.m; sourceTree = "<group>"; };
-		522BDB8324EA8B820079B599 /* XXAttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXAttributedLabel.m; sourceTree = "<group>"; };
+		056DAE441ACC711865E26A47 /* Pods_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		85817D6D2419222900A42032 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85817D702419222900A42032 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		85817D712419222900A42032 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -57,6 +31,8 @@
 		85817D822419222A00A42032 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		85817E0B2419231100A42032 /* TouchTestView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchTestView.m; sourceTree = "<group>"; };
 		85817E0C2419231100A42032 /* TouchTestView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchTestView.h; sourceTree = "<group>"; };
+		B5A60C1812E2CDF31894B864 /* Pods-Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Demo.debug.xcconfig"; path = "Target Support Files/Pods-Demo/Pods-Demo.debug.xcconfig"; sourceTree = "<group>"; };
+		FB664776C1EB1AAA0DCE4DCD /* Pods-Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Demo.release.xcconfig"; path = "Target Support Files/Pods-Demo/Pods-Demo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,53 +40,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0A48B19309ED72B5F645DF3 /* Pods_Demo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5222FE9924E77BFC00E7A350 /* TMAttributedLabel */ = {
+		0DFBC69C4293F6383B55AEAA /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				5222FE7424E774BD00E7A350 /* TMAttributedLabel.h */,
-				5222FE7524E774BD00E7A350 /* TMAttributedLabel.m */,
-				5222FE9A24E7801200E7A350 /* TMAttributedLabelLink.h */,
-				5222FE9B24E7801200E7A350 /* TMAttributedLabelLink.m */,
-				522BDB5F24E7B1CF0079B599 /* TMAttributedLabelAttachment.h */,
-				522BDB6024E7B1CF0079B599 /* TMAttributedLabelAttachment.m */,
-				522BDB6324EA5AE50079B599 /* NSMutableAttributedString+TM.h */,
-				522BDB6424EA5AE50079B599 /* NSMutableAttributedString+TM.m */,
-				522BDB6224E7B2560079B599 /* TMAtributedLabelHeader.h */,
+				B5A60C1812E2CDF31894B864 /* Pods-Demo.debug.xcconfig */,
+				FB664776C1EB1AAA0DCE4DCD /* Pods-Demo.release.xcconfig */,
 			);
-			path = TMAttributedLabel;
+			path = Pods;
 			sourceTree = "<group>";
 		};
-		522BDB6624EA84080079B599 /* XXAttributedLabel */ = {
+		58FE4DDA1BE0C51DB7C534AF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				522BDB7A24EA87FB0079B599 /* TMAttributedLabel+XX.h */,
-				522BDB7924EA87FB0079B599 /* TMAttributedLabel+XX.m */,
-				522BDB7C24EA8B820079B599 /* XXAttributedLabel.h */,
-				522BDB8324EA8B820079B599 /* XXAttributedLabel.m */,
-				522BDB7F24EA8B820079B599 /* XXAttributedLabelDrawView.h */,
-				522BDB8024EA8B820079B599 /* XXAttributedLabelDrawView.m */,
-				522BDB7D24EA8B820079B599 /* XXAttributedLabelMagnifyView.h */,
-				522BDB8224EA8B820079B599 /* XXAttributedLabelMagnifyView.m */,
-				522BDB7E24EA8B820079B599 /* XXAttributedLabelTouchView.h */,
-				522BDB8124EA8B820079B599 /* XXAttributedLabelTouchView.m */,
+				056DAE441ACC711865E26A47 /* Pods_Demo.framework */,
 			);
-			name = XXAttributedLabel;
-			path = ../XXAttributedLabel/XXAttributedLabel/XXAttributedLabel;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		85817D642419222900A42032 = {
 			isa = PBXGroup;
 			children = (
-				5222FE9924E77BFC00E7A350 /* TMAttributedLabel */,
-				522BDB6624EA84080079B599 /* XXAttributedLabel */,
 				85817D6F2419222900A42032 /* Demo */,
 				85817D6E2419222900A42032 /* Products */,
+				0DFBC69C4293F6383B55AEAA /* Pods */,
+				58FE4DDA1BE0C51DB7C534AF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -147,9 +107,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 85817D862419222A00A42032 /* Build configuration list for PBXNativeTarget "Demo" */;
 			buildPhases = (
+				6ABF56956F62ABE7CE0DD974 /* [CP] Check Pods Manifest.lock */,
 				85817D692419222900A42032 /* Sources */,
 				85817D6A2419222900A42032 /* Frameworks */,
 				85817D6B2419222900A42032 /* Resources */,
+				9F8CE9578585A2C16D5390EF /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -205,6 +167,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		6ABF56956F62ABE7CE0DD974 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Demo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9F8CE9578585A2C16D5390EF /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Demo/Pods-Demo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Demo/Pods-Demo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Demo/Pods-Demo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		85817D692419222900A42032 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -213,16 +217,7 @@
 				85817E0D2419231200A42032 /* TouchTestView.m in Sources */,
 				85817D782419222900A42032 /* ViewController.m in Sources */,
 				85817D722419222900A42032 /* AppDelegate.m in Sources */,
-				522BDB8424EA8B820079B599 /* XXAttributedLabelDrawView.m in Sources */,
-				522BDB8724EA8B820079B599 /* XXAttributedLabel.m in Sources */,
-				522BDB8524EA8B820079B599 /* XXAttributedLabelTouchView.m in Sources */,
-				522BDB7B24EA87FB0079B599 /* TMAttributedLabel+XX.m in Sources */,
-				5222FE9C24E7801200E7A350 /* TMAttributedLabelLink.m in Sources */,
-				5222FE7624E774BD00E7A350 /* TMAttributedLabel.m in Sources */,
-				522BDB6124E7B1CF0079B599 /* TMAttributedLabelAttachment.m in Sources */,
-				522BDB6524EA5AE50079B599 /* NSMutableAttributedString+TM.m in Sources */,
 				85817D832419222A00A42032 /* main.m in Sources */,
-				522BDB8624EA8B820079B599 /* XXAttributedLabelMagnifyView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -360,6 +355,7 @@
 		};
 		85817D872419222A00A42032 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B5A60C1812E2CDF31894B864 /* Pods-Demo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -377,6 +373,7 @@
 		};
 		85817D882419222A00A42032 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FB664776C1EB1AAA0DCE4DCD /* Pods-Demo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

@@ -1,0 +1,6 @@
+framework module TMAttributedLabel {
+  umbrella header "TMAttributedLabel-umbrella.h"
+
+  export *
+  module * { export * }
+}

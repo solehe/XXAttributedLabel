@@ -6,8 +6,9 @@
 //  Copyright © 2020 solehe. All rights reserved.
 //
 
+#import <XXAttributedLabel.h>
+
 #import "ViewController.h"
-#import "XXAttributedLabel.h"
 #import "TouchTestView.h"
 
 @interface ViewController ()
@@ -24,54 +25,49 @@
     
     // Do any additional setup after loading the view.
     [self.view setBackgroundColor:[UIColor whiteColor]];
-    
-    // TouchTestView
-    TouchTestView *touchView = [[TouchTestView alloc] initWithFrame:self.view.bounds];
-    [self.view addSubview:touchView];
-    
-    // Label
+
+    // Do any additional setup after loading the view.
     XXAttributedLabel *label = [[XXAttributedLabel alloc] initWithFrame:CGRectMake(20, 100, 335, 180)];
     [label setBackgroundColor:[UIColor yellowColor]];
-    [label setLinkColor:[UIColor redColor]];
+    [label setLinkHighlightColor:[UIColor redColor]];
     [label setEnableSelected:YES];
+    [label setLineSpacing:3.f];
     [label setNumberOfLines:0];
+    [label setTag:1024];
+    [label setDelegate:self];
     [self.view addSubview:label];
     
-    [label setText:@"ဘယ်လိုပါလဲ။ 我们不爱睡觉အိမ်ကို မြင်ဖို့ ကောင်းပါတယ်။ ပိုမြန်မြန်မြန်မြန်မြန် မဟုတ်ဘူး။ အိမ်ကို သွားဖို့ ကောင်းပါတယ်။ အိမ်ကို ရောက်တဲ့"];
+    [label append:@"风急天高猿啸哀，\n"];
+    [label append:@"渚清沙白鸟飞回。\n"];
+    [label append:@"无边落木萧萧下，\n"];
+    [label append:@"不尽长江滚滚来。\n"];
+    [label append:@"万里悲秋常作客，\n"];
+    [label append:@"百年多病独登台。\n"];
+    [label append:@"艰难苦恨繁霜鬓，\n"];
+    //[label append:@"潦倒新停浊酒杯。\n"];
     
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20, label.font.lineHeight)];
-    [view setBackgroundColor:[UIColor redColor]];
-    [label append:view];
-
-    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 50, label.font.lineHeight)];
-    [label1 setBackgroundColor:[UIColor purpleColor]];
-    [label1 setTextColor:[UIColor redColor]];
-    [label1 setText:@"111"];
-    [label append:label1];
+    // 以顶部对齐的方式添加一个label
+    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectZero];
+    [label1 setText:@"潦倒新停浊酒杯。"];
     
-    [label append:[UIImage imageNamed:@"icon_chats_block"]];
+    CGFloat width = [label sizeThatFits:CGSizeMake(335, label.font.lineHeight)].width;
+    [label1 setFrame:CGRectMake(0, 0, width, label.font.lineHeight+3)];
     
-    [label append:@"888"];
+    [label append:label1 alignment:TMAttributedAlignmentTop];
     
-    [label append:@"န်မြန်မြန်မြန်မြန်"];
-    
-    [label append:@"生命诚可贵，爱情价更高。若为自由故，两者皆可抛。"];
-    
-    [label append:@"12356703j,ad.asjd;kl"];
-    
-    [label addCustomLink:@"" forRange:NSMakeRange(12, 6)];
-
-    [label addCustomLink:@"" forRange:NSMakeRange(152, 24) color:[UIColor magentaColor]];
-    
+    // 重新计算尺寸
     CGSize size = [label sizeThatFits:CGSizeMake(335, 180)];
     [label setFrame:CGRectMake(20, 100, size.width, size.height)];
     
+    // 添加链接
+    NSString *linkString = @"无边落木萧萧下，";
+    NSRange range = [label.text rangeOfString:linkString];
+    [label addCustomLink:linkString forRange:range color:[UIColor blueColor]];
     
-    // 支持选择
-    label.enableSelected = YES;
     
     // 长按链接回调
-    [label setLongPressedLinkBlock:^(id  _Nonnull linkData, LongPressedEndBlock  _Nonnull block) {
+    [label setLongPressedLinkBlock:^(id  _Nonnull linkData, LongPressedEndBlock  _Nonnull block)
+    {
         
         NSString *linkString = nil;
         
@@ -96,7 +92,8 @@
     
     // 选择触发监听
     __weak typeof(label) weak_label = label;
-    [label setSelectingListenBlock:^(BOOL selecting) {
+    [label setSelectingListenBlock:^(BOOL selecting)
+    {
         if (selecting) {
             [self.view becomeFirstResponder];
             [[UIMenuController sharedMenuController] showMenuFromView:weak_label rect:weak_label.bounds];
@@ -107,15 +104,22 @@
     }];
     
     // 放大镜触发监听
-    [label setMagnifyDisplayBlock:^(BOOL display) {
-        [[UIMenuController sharedMenuController] setMenuVisible:!display];
+    [label setMagnifyDisplayBlock:^(BOOL display)
+     {
+        if (display) {
+            [[UIMenuController sharedMenuController] hideMenu];
+            
+        } else {
+            [[UIMenuController sharedMenuController] showMenuFromView:weak_label rect:weak_label.bounds];
+        }
     }];
 }
 
 
-#pragma mark - M80AttributedLabelDelegate
+#pragma mark - TMAttributedLabelDelegate
 
-- (void)attributedLabel:(TMAttributedLabel *)label clickedOnLink:(id)linkData {
+- (void)attributedLabel:(TMAttributedLabel *)label clickedOnLink:(id)linkData
+{
     
     if ([linkData isKindOfClass:[NSString class]])
     {
@@ -129,7 +133,8 @@
 
 #pragma mark -
 
-- (BOOL)canBecomeFirstResponder {
+- (BOOL)canBecomeFirstResponder
+{
     return YES;
 }
 
@@ -142,7 +147,8 @@
     }
 }
 
-- (void)copy:(id)obj {
+- (void)copy:(id)obj
+{
     XXAttributedLabel *label = [self.view viewWithTag:1024];
     [[UIPasteboard generalPasteboard] setString:label.selectedText];
     NSLog(@"复制到粘贴板的文本：%@", label.selectedText);
