@@ -204,11 +204,6 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
                 // 获取行高和y坐标开始位置
                 CGFloat lineHeight = (ascent + descent + self.label.lineSpacing);
                 
-                // 最后一行适当增加行高以覆盖全部内容
-                if (i == self.endAtLine) {
-                    lineHeight += (lineHeight / 5.f);
-                }
-                
                 // 绘制
                 if (i >= self.startAtLine) {
                     CGFloat lineOffsetX = [self getXOffset:line] + xOffset;

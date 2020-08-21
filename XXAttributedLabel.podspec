@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "XXAttributedLabel"
-  spec.version      = "0.2.0"
+  spec.version      = "0.2.1"
   spec.summary      = "基于TMAttributedLabel实现的可选操作，让Label也可以支持复制、选择功能。"
 
   # This description is used to generate tags and improve search results.
@@ -132,6 +132,6 @@ Pod::Spec.new do |spec|
   spec.requires_arc = true
 
   # spec.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
-  spec.dependency "TMAttributedLabel", "~> 0.0.1"
+  spec.dependency "TMAttributedLabel", "~> 0.0.2"
 
 end

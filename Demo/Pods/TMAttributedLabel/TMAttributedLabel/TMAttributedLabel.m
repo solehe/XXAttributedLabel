@@ -445,6 +445,12 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
 #pragma mark -
 
 - (void)setText:(id)text {
+    
+    if (([text isKindOfClass:[NSString class]] || [text isKindOfClass:[NSAttributedString class]]) && [text length] <= 0) {
+        [self.linkModels removeAllObjects];
+        [self.attachments removeAllObjects];
+    }
+    
     text = !text ? @"" : text;
     if ([text isKindOfClass:[NSString class]]) {
         [self setAttributedText:[[NSMutableAttributedString alloc] initWithString:text attributes:NSAttributedStringAttributesFromLabel(self)]];
@@ -459,10 +465,6 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
 }
 
 - (void)setAttributedText:(NSAttributedString *)attributedText {
-
-    if (self.attributedText.length <= 0) {
-        [self.linkModels removeAllObjects];
-    }
     
     _attributedText = [NSAttributedStringAttributesFromLinks(attributedText, _linkModels) copy];
 
@@ -516,6 +518,7 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
     
     attachment.fontAscent                   = self.font.ascender;
     attachment.fontDescent                  = self.font.descender;
+    attachment.lineHeight                   = self.font.lineHeight;
     unichar objectReplacementChar           = 0xFFFC;
     NSString *objectReplacementString       = [NSString stringWithCharacters:&objectReplacementChar length:1];
     NSMutableAttributedString *attachText   = [[NSMutableAttributedString alloc]initWithString:objectReplacementString];
@@ -550,6 +553,11 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
 #pragma mark -
 
 - (void)setNeedsFramesetter {
+    
+    for (UIView *subView in self.subviews) {
+        [subView removeFromSuperview];
+    }
+    
     _renderedAttributedText = nil;
     _needsFramesetter = YES;
 }
@@ -895,7 +903,6 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
         CGFloat lineDescent;
         CTLineGetTypographicBounds(line, &lineAscent, &lineDescent, NULL);
         CGFloat lineHeight = lineAscent + lineDescent;
-        CGFloat lineBottomY = lineOrigin.y - lineDescent;
         
         //遍历找到对应的 attachment 进行绘制
         for (CFIndex k = 0; k < runCount; k++)
@@ -907,7 +914,7 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
             {
                 continue;
             }
-            TMAttributedLabelAttachment* attributedImage = (TMAttributedLabelAttachment *)CTRunDelegateGetRefCon(delegate);
+            TMAttributedLabelAttachment * attributedImage = (TMAttributedLabelAttachment *)CTRunDelegateGetRefCon(delegate);
             
             CGFloat ascent = 0.0f;
             CGFloat descent = 0.0f;
@@ -917,26 +924,31 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
                                                                &descent,
                                                                NULL);
             
+            CGFloat flushFactor = XXFlushFactorForTextAlignment(self.textAlignment);
+            CGFloat penOffsetX = (CGFloat)CTLineGetPenOffsetForFlush(line, flushFactor, rect.size.width);
+            
             CGFloat imageBoxHeight = [attributedImage boxSize].height;
-            CGFloat xOffset = CTLineGetOffsetForStringIndex(line, CTRunGetStringRange(run).location, nil);
+            CGFloat xOffset = CTLineGetOffsetForStringIndex(line, CTRunGetStringRange(run).location, nil) + penOffsetX;
             
             CGFloat imageBoxOriginY = 0.0f;
             switch (attributedImage.alignment)
             {
                 case TMAttributedAlignmentTop:
-                    imageBoxOriginY = lineBottomY + (lineHeight - imageBoxHeight);
+                    imageBoxOriginY = (lineHeight - imageBoxHeight);
                     break;
                 case TMAttributedAlignmentCenter:
-                    imageBoxOriginY = lineBottomY + (lineHeight - imageBoxHeight) / 2.0;
+                    imageBoxOriginY = (lineHeight - imageBoxHeight) / 2.0;
                     break;
                 case TMAttributedAlignmentBottom:
-                    imageBoxOriginY = lineBottomY;
+                    imageBoxOriginY = 0.f;
                     break;
             }
             
-            CGFloat offsetY = rect.origin.y - self.textInsets.top - self.textInsets.bottom;
-            CGRect viewRect = CGRectMake(lineOrigin.x + xOffset + self.textInsets.left, imageBoxOriginY - offsetY, width, imageBoxHeight);
+            CGFloat offsetX = lineOrigin.x + xOffset + self.textInsets.left;
+            CGFloat offsetY = rect.size.height - lineOrigin.y + imageBoxOriginY + rect.origin.y + self.textInsets.top;
+            CGRect viewRect = CGRectMake(offsetX, offsetY, width, imageBoxHeight);
             UIEdgeInsets flippedMargins = attributedImage.margin;
+            
             CGFloat top = flippedMargins.top;
             flippedMargins.top = flippedMargins.bottom;
             flippedMargins.bottom = top;
@@ -973,7 +985,7 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
                     [self addSubview:view];
                 }
                 CGRect viewFrame = CGRectMake(attatchmentRect.origin.x,
-                                              self.bounds.size.height - attatchmentRect.origin.y - attatchmentRect.size.height,
+                                              attatchmentRect.origin.y - self.font.pointSize,
                                               attatchmentRect.size.width,
                                               attatchmentRect.size.height);
                 [view setFrame:viewFrame];

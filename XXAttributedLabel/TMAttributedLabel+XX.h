@@ -7,7 +7,7 @@
 //
 
 #import <CoreText/CoreText.h>
-#import <TMAttributedLabel/TMAttributedLabel.h>
+#import "TMAttributedLabel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

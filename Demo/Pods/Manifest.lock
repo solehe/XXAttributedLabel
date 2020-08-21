@@ -1,7 +1,7 @@
 PODS:
-  - TMAttributedLabel (0.0.1)
-  - XXAttributedLabel (0.1.1):
-    - TMAttributedLabel (~> 0.0.1)
+  - TMAttributedLabel (0.0.2)
+  - XXAttributedLabel (0.2.1):
+    - TMAttributedLabel (~> 0.0.2)
 
 DEPENDENCIES:
   - XXAttributedLabel (from `../`)
@@ -15,8 +15,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  TMAttributedLabel: 06bff2e5077d31e623b6f5d6f71bf4d79b541d7d
-  XXAttributedLabel: 8514295296588e6d6b18cf20bb1abeac4df34b9d
+  TMAttributedLabel: 3d48d5880c7b92d5bbe7316a78bd7965570e6aca
+  XXAttributedLabel: 837666cee1642c9f1be6a331f3d00fa9318e5b0c
 
 PODFILE CHECKSUM: 4fa0447761779bfc8c92d1aeecb2c32b973676a5
 
