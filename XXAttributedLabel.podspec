@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "XXAttributedLabel"
-  spec.version      = "0.2.2"
+  spec.version      = "0.2.3"
   spec.summary      = "基于TMAttributedLabel实现的可选操作，让Label也可以支持复制、选择功能。"
 
   # This description is used to generate tags and improve search results.
