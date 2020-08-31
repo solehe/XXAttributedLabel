@@ -6,7 +6,7 @@
 //  Copyright © 2020 solehe. All rights reserved.
 //
 
-#import "TMAttributedLabel.h"
+#import <TMAttributedLabel/TMAttributedLabel.h>
 
 typedef void(^LongPressedEndBlock)(void);
 
