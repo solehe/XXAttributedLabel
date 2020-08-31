@@ -6,10 +6,10 @@
 //  Copyright © 2020 solehe. All rights reserved.
 //
 
+#import <TMAttributedLabel/TMAttributedLabelLink.h>
 #import <objc/runtime.h>
 #import "XXAttributedLabel.h"
 #import "XXAttributedLabelDrawView.h"
-#import "TMAttributedLabelLink.h"
 
 @interface XXAttributedLabel ()
 
