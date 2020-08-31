@@ -84,6 +84,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (CGSize)sizeThatFits:(CGSize)size;
 
+/**
+ * copy指定范围内的文本
+ *
+ * @param range 文本范围
+ */
+- (NSString *)copyWithRange:(NSRange)range;
+
 @end
 
 NS_ASSUME_NONNULL_END

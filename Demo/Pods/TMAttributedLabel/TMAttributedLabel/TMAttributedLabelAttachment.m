@@ -15,63 +15,65 @@ void deallocCallback(void * ref)
 CGFloat ascentCallback(void *ref)
 {
     TMAttributedLabelAttachment *image = (__bridge TMAttributedLabelAttachment *)ref;
-//    CGFloat ascent = 0;
-//    CGFloat height = [image boxSize].height;
-//    switch (image.alignment)
-//    {
-//        case TMAttributedAlignmentTop:
-//            ascent = image.fontAscent;
-//            break;
-//        case TMAttributedAlignmentCenter:
-//        {
-//            CGFloat fontAscent  = image.fontAscent;
-//            CGFloat fontDescent = image.fontDescent;
-//            CGFloat baseLine = (fontAscent + fontDescent) / 2 - fontDescent;
-//            ascent = height / 2 + baseLine;
-//        }
-//            break;
-//        case TMAttributedAlignmentBottom:
-//            ascent = height - image.fontDescent;
-//            break;
-//        default:
-//            break;
-//    }
+    /*
+    CGFloat ascent = 0;
+    CGFloat height = [image boxSize].height;
+    switch (image.alignment)
+    {
+        case TMAttributedAlignmentTop:
+            ascent = image.fontAscent;
+            break;
+        case TMAttributedAlignmentCenter:
+        {
+            CGFloat fontAscent  = image.fontAscent;
+            CGFloat fontDescent = image.fontDescent;
+            CGFloat baseLine = (fontAscent + fontDescent) / 2 - fontDescent;
+            ascent = height / 2 + baseLine;
+        }
+            break;
+        case TMAttributedAlignmentBottom:
+            ascent = height - image.fontDescent;
+            break;
+        default:
+            break;
+    } */
     return image.fontAscent;
 }
 
 CGFloat descentCallback(void *ref)
 {
     TMAttributedLabelAttachment *image = (__bridge TMAttributedLabelAttachment *)ref;
-//    CGFloat descent = 0;
-//    CGFloat height = [image boxSize].height;
-//    switch (image.alignment)
-//    {
-//        case TMAttributedAlignmentTop:
-//        {
-//            descent = height - image.fontAscent;
-//            break;
-//        }
-//        case TMAttributedAlignmentCenter:
-//        {
-//            CGFloat fontAscent  = image.fontAscent;
-//            CGFloat fontDescent = image.fontDescent;
-//            CGFloat baseLine = (fontAscent + fontDescent) / 2 - fontDescent;
-//            descent = height / 2 - baseLine;
-//        }
-//            break;
-//        case TMAttributedAlignmentBottom:
-//        {
-//            descent = image.fontDescent;
-//            break;
-//        }
-//        default:
-//            break;
-//    }
-    
+    /*
+    CGFloat descent = 0;
+    CGFloat height = [image boxSize].height;
+    switch (image.alignment)
+    {
+        case TMAttributedAlignmentTop:
+        {
+            descent = height - image.fontAscent;
+            break;
+        }
+        case TMAttributedAlignmentCenter:
+        {
+            CGFloat fontAscent  = image.fontAscent;
+            CGFloat fontDescent = image.fontDescent;
+            CGFloat baseLine = (fontAscent + fontDescent) / 2 - fontDescent;
+            descent = height / 2 - baseLine;
+        }
+            break;
+        case TMAttributedAlignmentBottom:
+        {
+            descent = image.fontDescent;
+            break;
+        }
+        default:
+            break;
+    }
+     */
     return image.fontDescent;
 }
 
-CGFloat widthCallback(void* ref)
+CGFloat widthCallback(void * ref)
 {
     TMAttributedLabelAttachment *image  = (__bridge TMAttributedLabelAttachment *)ref;
     return [image boxSize].width;

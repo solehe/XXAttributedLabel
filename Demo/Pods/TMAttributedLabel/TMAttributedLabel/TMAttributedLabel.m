@@ -159,12 +159,13 @@ static inline NSMutableAttributedString * NSAttributedStringBySettingColorFromCo
 }
 
 static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstraints(CTFramesetterRef framesetter, NSAttributedString *attributedString, CGSize size, NSUInteger numberOfLines) {
+    
     CFRange rangeToSize = CFRangeMake(0, (CFIndex)[attributedString length]);
     CGSize constraints = CGSizeMake(size.width, TMFLOAT_MAX);
 
     if (numberOfLines == 1) {
-        // If there is one line, the size that fits is the full width of the line
-        constraints = CGSizeMake(TMFLOAT_MAX, TMFLOAT_MAX);
+        // If there is one line
+        constraints = size;
     } else if (numberOfLines > 0) {
         // If the line count of the label more than 1, limit the range to size to the number of lines that have been set
         CGMutablePathRef path = CGPathCreateMutable();
@@ -208,6 +209,34 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
 @dynamic text;
 @synthesize framesetter = _framesetter;
 @synthesize attributedText = _attributedText;
+
+#pragma mark -
+
+- (void)setNumberOfLines:(NSInteger)numberOfLines {
+    if (self.numberOfLines != numberOfLines) {
+        [super setNumberOfLines:numberOfLines];
+        [self setNeedsFramesetter];
+        [self setNeedsDisplay];
+    }
+}
+
+- (void)setTextColor:(UIColor *)textColor {
+    if (self.textColor != textColor) {
+        [super setTextColor:textColor];
+        [self setNeedsFramesetter];
+        [self setNeedsDisplay];
+    }
+}
+
+- (void)setFont:(UIFont *)font {
+    if (self.font != font) {
+        [super setFont:font];
+        [self setNeedsFramesetter];
+        [self setNeedsDisplay];
+    }
+}
+
+#pragma mark -
 
 - (void)dealloc {
     if (_framesetter) {
@@ -446,12 +475,11 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
 
 - (void)setText:(id)text {
     
-    if (([text isKindOfClass:[NSString class]] || [text isKindOfClass:[NSAttributedString class]]) && [text length] <= 0) {
-        [self.linkModels removeAllObjects];
-        [self.attachments removeAllObjects];
-    }
+    [self.linkModels removeAllObjects];
+    [self.attachments removeAllObjects];
     
     text = !text ? @"" : text;
+    
     if ([text isKindOfClass:[NSString class]]) {
         [self setAttributedText:[[NSMutableAttributedString alloc] initWithString:text attributes:NSAttributedStringAttributesFromLabel(self)]];
     } else if ([text isKindOfClass:[NSAttributedString class]]) {
@@ -465,6 +493,10 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
 }
 
 - (void)setAttributedText:(NSAttributedString *)attributedText {
+
+    if (self.attributedText.length <= 0) {
+        [_linkModels removeAllObjects];
+    }
     
     _attributedText = [NSAttributedStringAttributesFromLinks(attributedText, _linkModels) copy];
 
@@ -483,7 +515,8 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
     
     if ([obj isKindOfClass:[UIImage class]] || [obj isKindOfClass:[UIView class]]) {
         
-        CGSize size = [obj isKindOfClass:[UIImage class]] ? ((UIImage *)obj).size : CGSizeZero;
+        CGSize maxSize = CGSizeMake(((UIImage *)obj).size.width, self.font.lineHeight);
+        CGSize size = [obj isKindOfClass:[UIImage class]] ? maxSize : CGSizeZero;
         TMAttributedLabelAttachment *attachment = [TMAttributedLabelAttachment attachmentWith:obj
                                                                                        margin:UIEdgeInsetsZero
                                                                                     alignment:alignment
@@ -518,10 +551,10 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
     
     attachment.fontAscent                   = self.font.ascender;
     attachment.fontDescent                  = self.font.descender;
-    attachment.lineHeight                   = self.font.lineHeight;
     unichar objectReplacementChar           = 0xFFFC;
     NSString *objectReplacementString       = [NSString stringWithCharacters:&objectReplacementChar length:1];
     NSMutableAttributedString *attachText   = [[NSMutableAttributedString alloc]initWithString:objectReplacementString];
+    attachment.range                        = NSMakeRange(self.attributedText.length, 1);
     
     CTRunDelegateCallbacks callbacks;
     callbacks.version       = kCTRunDelegateVersion1;
@@ -616,13 +649,19 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
 
 - (CGSize)sizeThatFits:(CGSize)size {
     
-    if (!self.attributedText) {
-        
+    if (!self.attributedText)
+    {
         return [super sizeThatFits:size];
+    }
+    else
+    {
+        NSMutableAttributedString *fullString = [[NSMutableAttributedString alloc] initWithAttributedString:self.attributedText];
         
-    } else {
-
-        NSAttributedString *string = [[NSAttributedString alloc] initWithAttributedString:self.attributedText];
+        if (self.attributedTruncationToken) {
+            [fullString appendAttributedString:self.attributedTruncationToken];
+        }
+        
+        NSAttributedString *string = [[NSAttributedString alloc] initWithAttributedString:fullString];
         
         CGSize labelSize = CTFramesetterSuggestFrameSizeForAttributedStringWithConstraints([self framesetter], string, size, (NSUInteger)self.numberOfLines);
         labelSize.width += self.textInsets.left + self.textInsets.right;
@@ -903,7 +942,7 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
         CGFloat lineDescent;
         CTLineGetTypographicBounds(line, &lineAscent, &lineDescent, NULL);
         CGFloat lineHeight = lineAscent + lineDescent;
-        
+         
         //遍历找到对应的 attachment 进行绘制
         for (CFIndex k = 0; k < runCount; k++)
         {
@@ -923,6 +962,7 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
                                                                &ascent,
                                                                &descent,
                                                                NULL);
+            width = MIN(width, rect.size.width);
             
             CGFloat flushFactor = XXFlushFactorForTextAlignment(self.textAlignment);
             CGFloat penOffsetX = (CGFloat)CTLineGetPenOffsetForFlush(line, flushFactor, rect.size.width);
@@ -944,9 +984,10 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
                     break;
             }
             
-            CGFloat offsetX = lineOrigin.x + xOffset + self.textInsets.left;
+            CGFloat offsetX = xOffset + self.textInsets.left;
             CGFloat offsetY = rect.size.height - lineOrigin.y + imageBoxOriginY + rect.origin.y + self.textInsets.top;
             CGRect viewRect = CGRectMake(offsetX, offsetY, width, imageBoxHeight);
+            
             UIEdgeInsets flippedMargins = attributedImage.margin;
             
             CGFloat top = flippedMargins.top;
@@ -972,10 +1013,10 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
             id content = attributedImage.content;
             if ([content isKindOfClass:[UIImage class]])
             {
-                CGRect imageRect = CGRectMake(lineOrigin.x + xOffset, imageBoxOriginY, width, imageBoxHeight);
-                CGRect attatchmentImageRect = UIEdgeInsetsInsetRect(imageRect, flippedMargins);
+                CGFloat offset = (lineHeight - imageBoxHeight) / 2.0 - lineDescent;
                 
-                CGContextDrawImage(ctx, attatchmentImageRect, ((UIImage *)content).CGImage);
+                CGRect imageRect = CGRectMake(xOffset, lineOrigin.y + offset, width, imageBoxHeight);
+                CGContextDrawImage(ctx, imageRect, ((UIImage *)content).CGImage);
             }
             else if ([content isKindOfClass:[UIView class]])
             {
@@ -1249,6 +1290,45 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
     }
     
     return NO;
+}
+
+
+#pragma mark -
+
+- (NSString *)copyWithRange:(NSRange)range {
+    
+    if (self.attributedText.length >= range.location + range.length) {
+     
+        NSString *string = [self.text substringWithRange:range];
+        
+        if (_attachments.count > 0) {
+            
+            NSInteger offset = 0;
+            
+            for (TMAttributedLabelAttachment *attachment in _attachments) {
+             
+                if (NSLocationInRange(attachment.range.location, range)) {
+                    
+                    NSString *replaceText = @"";
+                    
+                    if ([attachment.content isKindOfClass:[UIButton class]]) {
+                        UIButton *button = (UIButton *)attachment.content;
+                        replaceText = button.titleLabel.text;
+                    }
+                    
+                    NSRange subRange = NSMakeRange(range.location + offset + attachment.range.location, 1);
+                    
+                    string = [string stringByReplacingCharactersInRange:subRange withString:replaceText];
+                    
+                    offset += (replaceText.length - 1);
+                }
+            }
+        }
+        
+        return string;
+    }
+    
+    return @"";
 }
 
 @end

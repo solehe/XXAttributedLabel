@@ -171,6 +171,10 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
         CGContextRef context = UIGraphicsGetCurrentContext();
         
         CFArrayRef lines = CTFrameGetLines(self.label.textFrameRef);
+        if (!lines) {
+            return;
+        }
+        
         CFIndex numberOfLines = CFArrayGetCount(lines);
         
         // 获取行数
@@ -187,7 +191,7 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
             CGFloat offsetY = textRect.origin.y;
             
             // 竖直方向上的开始坐标
-            CGFloat yOffset = self.edgeInsets.top + offsetY;
+            CGFloat yOffset = self.edgeInsets.top + offsetY - self.label.lineSpacing / 2.f;
             
             // 左右方向上的开始坐标
             CGFloat xOffset = self.edgeInsets.left + textRect.origin.x;
@@ -585,11 +589,14 @@ typedef NS_ENUM(NSInteger, XXDragLocation) {
     
     // 设置结束位置
     CFArrayRef lines = CTFrameGetLines(self.label.textFrameRef);
-    CFIndex numberOfLines = CFArrayGetCount(lines);
-    [self setEndAtLine:numberOfLines-1];
-    
-    CFIndex position = [self getLineMaxIndex:self.endAtLine];
-    [self setEndAtIndex:position];
+    if (lines)
+    {
+        CFIndex numberOfLines = CFArrayGetCount(lines);
+        [self setEndAtLine:numberOfLines-1];
+        
+        CFIndex position = [self getLineMaxIndex:self.endAtLine];
+        [self setEndAtIndex:position];
+    }
     
     // 重绘
     [self setNeedsDisplay];

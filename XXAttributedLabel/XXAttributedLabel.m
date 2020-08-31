@@ -80,7 +80,8 @@
     NSUInteger len = range.location + range.length;
     if (len <= self.attributedText.string.length)
     {
-        return [self.attributedText.string substringWithRange:self.drawView.selecedRange];
+        return [self copyWithRange:self.drawView.selecedRange];
+        //return [self.attributedText.string substringWithRange:self.drawView.selecedRange];
     }
     return nil;
 }
@@ -204,6 +205,18 @@
     }
     else if (CGRectContainsPoint(self.bounds, point))
     {
+        NSArray *subViews = [self subviews];
+        for (UIView *view in subViews)
+        {
+            CGPoint hitPoint = [view convertPoint:point fromView:self];
+            
+            UIView *hitTestView = [view hitTest:hitPoint withEvent:event];
+            if (hitTestView)
+            {
+                return hitTestView;
+            }
+        }
+        
         return self;
     }
     

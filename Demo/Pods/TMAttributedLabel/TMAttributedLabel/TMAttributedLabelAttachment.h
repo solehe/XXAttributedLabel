@@ -24,8 +24,8 @@ CGFloat widthCallback(void* ref);
 @property (nonatomic,assign)    TMAttributedAlignment   alignment;
 @property (nonatomic,assign)    CGFloat                 fontAscent;
 @property (nonatomic,assign)    CGFloat                 fontDescent;
-@property (nonatomic,assign)    CGFloat                 lineHeight;
 @property (nonatomic,assign)    CGSize                  maxSize;
+@property (nonatomic,assign)    NSRange                 range;
 
 + (TMAttributedLabelAttachment *)attachmentWith:(id)content
                                         margin:(UIEdgeInsets)margin
